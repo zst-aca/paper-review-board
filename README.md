@@ -45,7 +45,6 @@ A lightweight, privacy-first, single-HTML tool for tracking academic paper submi
 - `localStorage` (本地数据持久化)
 
 ## ✉️ 作者与交流
-- **博主研究领域**：城市 / 地理 / 环境 / GeoAI
 - **小红书主页**：@不要瞎说 (ID: 9559301087)
 - **联系与合作交流**：academic.zst@outlook.com
 
