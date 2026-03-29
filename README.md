@@ -1,9 +1,11 @@
-# paper-review-board
+<img width="610" height="660" alt="1" src="https://github.com/user-attachments/assets/52baac25-6c72-44d7-af1b-eb2da19c48ee" /># paper-review-board
 A lightweight, privacy-first, single-HTML tool for tracking academic paper submissions and peer reviews. 一款纯前端、数据存本地的极简学术投稿与审稿管理工具。
 
 # 📑 学术投稿与审稿管理工具 (Academic Tracker)
 
 > 一款为科研工作者量身定制的轻量级、零部署、绝对隐私的单文件（Single-HTML）管理工具。
+<img width="610" height="660" alt="1" src="https://github.com/user-attachments/assets/9d63750a-d10f-4001-813f-88ccfcc21510" />
+
 
 ## 💡 起因
 都说搞论文比较好的状态是：“一个在投，一个返修，一个在写，一个在构思”。
