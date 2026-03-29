@@ -1,10 +1,11 @@
-<img width="610" height="660" alt="1" src="https://github.com/user-attachments/assets/52baac25-6c72-44d7-af1b-eb2da19c48ee" /># paper-review-board
+# paper-review-board
 A lightweight, privacy-first, single-HTML tool for tracking academic paper submissions and peer reviews. 一款纯前端、数据存本地的极简学术投稿与审稿管理工具。
 
 # 📑 学术投稿与审稿管理工具 (Academic Tracker)
 
 > 一款为科研工作者量身定制的轻量级、零部署、绝对隐私的单文件（Single-HTML）管理工具。
-<img width="610" height="660" alt="1" src="https://github.com/user-attachments/assets/9d63750a-d10f-4001-813f-88ccfcc21510" />
+<img width="400" alt="1" src="https://github.com/user-attachments/assets/9d63750a-d10f-4001-813f-88ccfcc21510" />  <img width="400"  alt="2" src="https://github.com/user-attachments/assets/e04e5985-963c-4878-99c9-5b2f0ccce824" />
+
 
 
 ## 💡 起因
@@ -14,6 +15,12 @@ A lightweight, privacy-first, single-HTML tool for tracking academic paper submi
 **纯前端原生代码（Vanilla JS + HTML + CSS），数据 100% 存在浏览器本地（LocalStorage），不需联网，不走服务器，绝对保护未发表论文的隐私安全。**
 
 ## ✨ 核心功能
+
+<img width="410"  alt="3" src="https://github.com/user-attachments/assets/4c39c6c7-53df-4c64-a79d-c443fca2f4c2" /> <img width="410" alt="4" src="https://github.com/user-attachments/assets/590d45c4-fb00-4039-aaa1-507e2a562a92" />
+<img width="392" height="621" alt="5" src="https://github.com/user-attachments/assets/451000bd-220c-4719-a1c7-45b2111a31ae" /> <img width="392" height="621" alt="6" src="https://github.com/user-attachments/assets/84470104-03f3-42a1-93c2-281b629c25c5" />
+
+
+
 
 ### 📄 投稿管理 (Paper Submissions)
 - **状态流转**：准备中 → 已投稿 → 审稿中 → 修回中 → 接收/被拒。
