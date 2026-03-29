@@ -47,6 +47,8 @@ A lightweight, privacy-first, single-HTML tool for tracking academic paper submi
 
 *💡 提示：为了防止清理浏览器缓存导致数据丢失，请定期在界面右上角点击「📋 导出备份」，将数据保存为 JSON 文件。*
 
+**🎁 附赠测试数据：** 本项目内置了一份 example_data.json 测试文件。你可以下载后，在工具右上角点击「📥 导入」，直接体验带图表统计的完整效果！
+
 ## 🛠️ 技术栈
 - HTML5 + CSS3 (原生，无预处理器)
 - Vanilla JavaScript (ES6+)
