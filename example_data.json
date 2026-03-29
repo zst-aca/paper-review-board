@@ -1,0 +1,615 @@
+{
+  "papers": [
+    {
+      "id": "p1",
+      "title": "基于深度学习的装配式混凝土节点抗震性能评估与损伤识别",
+      "journal": "土木工程学报",
+      "role": "first",
+      "status": "revision",
+      "trackingUrl": "http://www.cces.net.cn/",
+      "manuscriptId": "TMGC-2025-1024",
+      "coAuthors": "张伟, 李建国",
+      "submittedDate": "2025-10-10",
+      "notes": "目前是第二轮修回（小修），主要修改图表清晰度和补充部分对比实验数据。",
+      "priority": 3,
+      "tags": ["土木工程", "深度学习", "装配式建筑", "抗震"],
+      "timeline": [
+        { "id": "t1_1", "date": "2025-10-10", "label": "Submitted", "color": "#0ea5e9", "note": "" },
+        { "id": "t1_2", "date": "2025-10-15", "label": "Under Review", "color": "#f59e0b", "note": "外审专家3人" },
+        { "id": "t1_3", "date": "2025-12-05", "label": "Major Revision", "color": "#a855f7", "note": "需要补充有限元模拟细节" },
+        { "id": "t1_4", "date": "2026-01-20", "label": "Revision Submitted", "color": "#a855f7", "note": "一修返回" },
+        { "id": "t1_5", "date": "2026-01-25", "label": "Under Review", "color": "#f59e0b", "note": "二审中" },
+        { "id": "t1_6", "date": "2026-03-05", "label": "Minor Revision", "color": "#a855f7", "note": "格式修改" }
+      ],
+      "workId": "work_civil_01",
+      "deadline": "2026-04-05",
+      "account": { "username": "civil_eng_usr", "password": "Pwd123456" }
+    },
+    {
+      "id": "p2",
+      "title": "黄土高原半干旱区植被恢复对土壤碳氮循环及微生物群落的影响",
+      "journal": "生态学报",
+      "role": "corresponding",
+      "status": "accepted",
+      "trackingUrl": "https://www.ecologica.cn/",
+      "manuscriptId": "STXB20250612001",
+      "coAuthors": "王芳, 陈明",
+      "submittedDate": "2025-06-12",
+      "notes": "版面费已交，等待见刊。",
+      "priority": 1,
+      "tags": ["生态恢复", "土壤碳汇", "黄土高原", "微生物"],
+      "timeline": [
+        { "id": "t2_1", "date": "2025-06-12", "label": "Submitted", "color": "#0ea5e9", "note": "" },
+        { "id": "t2_2", "date": "2025-07-20", "label": "Under Review", "color": "#f59e0b", "note": "" },
+        { "id": "t2_3", "date": "2025-09-15", "label": "Minor Revision", "color": "#a855f7", "note": "" },
+        { "id": "t2_4", "date": "2025-11-20", "label": "Accepted", "color": "#22c55e", "note": "录用通知已下发" }
+      ],
+      "workId": "work_eco_01",
+      "deadline": "",
+      "account": { "username": "wangf_lab", "password": "eco_2025" }
+    },
+    {
+      "id": "p3",
+      "title": "Spatio-temporal knowledge graphs for urban traffic flow prediction under extreme weather",
+      "journal": "IEEE Transactions on Intelligent Transportation Systems",
+      "role": "first",
+      "status": "rejected",
+      "trackingUrl": "https://mc.manuscriptcentral.com/t-its",
+      "manuscriptId": "T-ITS-25-08-112",
+      "coAuthors": "Liu X, Zhao H",
+      "submittedDate": "2025-08-01",
+      "notes": "创新性被肯定，但审稿人认为极端天气的数据集不够大，被拒。",
+      "priority": 2,
+      "tags": ["GeoAI", "Traffic Prediction", "Knowledge Graph"],
+      "timeline": [
+        { "id": "t3_1", "date": "2025-08-01", "label": "Submitted", "color": "#0ea5e9", "note": "" },
+        { "id": "t3_2", "date": "2025-08-15", "label": "Under Review", "color": "#f59e0b", "note": "" },
+        { "id": "t3_3", "date": "2025-10-10", "label": "Rejected", "color": "#ef4444", "note": "Transfer suggested" }
+      ],
+      "workId": "work_geoai_traffic",
+      "deadline": "",
+      "account": { "username": "geo_usr1", "password": "TITS_pwd" }
+    },
+    {
+      "id": "p4",
+      "title": "Spatio-temporal knowledge graphs for urban traffic flow prediction under extreme weather",
+      "journal": "Transportation Research Part C: Emerging Technologies",
+      "role": "first",
+      "status": "under_review",
+      "trackingUrl": "https://www.editorialmanager.com/trc/",
+      "manuscriptId": "TRC-D-25-00987",
+      "coAuthors": "Liu X, Zhao H",
+      "submittedDate": "2025-11-05",
+      "notes": "根据T-ITS的意见补充了数据后，转投TRC，目前一审中。",
+      "priority": 3,
+      "tags": ["GeoAI", "Traffic Prediction", "Knowledge Graph"],
+      "timeline": [
+        { "id": "t4_1", "date": "2025-11-05", "label": "Submitted", "color": "#0ea5e9", "note": "Round 2 submission" },
+        { "id": "t4_2", "date": "2025-11-12", "label": "With Editor", "color": "#6366f1", "note": "" },
+        { "id": "t4_3", "date": "2025-11-28", "label": "Under Review", "color": "#f59e0b", "note": "找了三个审稿人" }
+      ],
+      "workId": "work_geoai_traffic",
+      "deadline": "",
+      "account": { "username": "geo_usr1", "password": "TRC_pwd" }
+    },
+    {
+      "id": "p5",
+      "title": "Climate change impacts on alpine permafrost in the Tibetan Plateau",
+      "journal": "The Cryosphere",
+      "role": "co_first",
+      "status": "accepted",
+      "trackingUrl": "https://www.the-cryosphere.net/",
+      "manuscriptId": "tc-2025-456",
+      "coAuthors": "Li J, Zhao H",
+      "submittedDate": "2025-05-10",
+      "notes": "非常顺利的一篇",
+      "priority": 1,
+      "tags": ["permafrost", "climate change", "Tibet"],
+      "timeline": [
+        { "id": "t5_1", "date": "2025-05-10", "label": "Submitted", "color": "#0ea5e9", "note": "" },
+        { "id": "t5_2", "date": "2025-08-01", "label": "Accepted", "color": "#22c55e", "note": "" }
+      ],
+      "workId": "work_cryo_01",
+      "deadline": "",
+      "account": {}
+    },
+    {
+      "id": "p6",
+      "title": "Assessing structural integrity of aging bridges using UAV photogrammetry and Deep Learning",
+      "journal": "Automation in Construction",
+      "role": "corresponding",
+      "status": "preparing",
+      "trackingUrl": "",
+      "manuscriptId": "",
+      "coAuthors": "Wang T, Davis R",
+      "submittedDate": "",
+      "notes": "引言部分还需要润色，图5需要重新用Python画。",
+      "priority": 3,
+      "tags": ["UAV", "Deep Learning", "Civil Infrastructure"],
+      "timeline": [
+        { "id": "t6_1", "date": "2026-03-25", "label": "准备中", "color": "#6366f1", "note": "初稿定稿" }
+      ],
+      "workId": "",
+      "deadline": "",
+      "account": {}
+    },
+    {
+      "id": "p7",
+      "title": "基于多源遥感数据的城市群不透水面扩张与热岛效应耦合机制",
+      "journal": "地理学报",
+      "role": "first",
+      "status": "revision",
+      "trackingUrl": "http://www.geog.com.cn/",
+      "manuscriptId": "DLXB-2025-0888",
+      "coAuthors": "赵阳, 孙教授",
+      "submittedDate": "2025-09-12",
+      "notes": "大修，评审专家要求深入分析政策因素对扩张的驱动。",
+      "priority": 3,
+      "tags": ["城市群", "不透水面", "UHI", "多源遥感"],
+      "timeline": [
+        { "id": "t7_1", "date": "2025-09-12", "label": "Submitted", "color": "#0ea5e9", "note": "" },
+        { "id": "t7_2", "date": "2025-10-20", "label": "Under Review", "color": "#f59e0b", "note": "" },
+        { "id": "t7_3", "date": "2026-02-15", "label": "Major Revision", "color": "#a855f7", "note": "大修意见返回" }
+      ],
+      "workId": "work_dlxb_01",
+      "deadline": "2026-04-15",
+      "account": { "username": "academic_rs", "password": "dlxb_pass" }
+    },
+    {
+      "id": "p8",
+      "title": "Measuring 15-minute cities: A comparative study of pedestrian accessibility in global megacities",
+      "journal": "Environment and Planning B: Urban Analytics and City Science",
+      "role": "first",
+      "status": "under_review",
+      "trackingUrl": "https://mc.manuscriptcentral.com/epb",
+      "manuscriptId": "EPB-26-0155",
+      "coAuthors": "Prof. Smith",
+      "submittedDate": "2026-01-20",
+      "notes": "一审已超两个月，准备写催稿信。",
+      "priority": 2,
+      "tags": ["15-min city", "Urban Analytics", "Accessibility"],
+      "timeline": [
+        { "id": "t8_1", "date": "2026-01-20", "label": "Submitted", "color": "#0ea5e9", "note": "" },
+        { "id": "t8_2", "date": "2026-01-28", "label": "Under Review", "color": "#f59e0b", "note": "" }
+      ],
+      "workId": "",
+      "deadline": "",
+      "account": {}
+    },
+    {
+      "id": "p9",
+      "title": "Unraveling the nonlinear effects of built environment on PM2.5 exposure using eXtreme Gradient Boosting",
+      "journal": "Science of The Total Environment",
+      "role": "co_corresponding",
+      "status": "accepted",
+      "trackingUrl": "https://www.editorialmanager.com/stoten/",
+      "manuscriptId": "STOTEN-D-25-11990",
+      "coAuthors": "Liu C, Chen K",
+      "submittedDate": "2025-07-08",
+      "notes": "STOTEN处理速度很快，三周出一审结果。",
+      "priority": 1,
+      "tags": ["PM2.5", "Built Environment", "XGBoost"],
+      "timeline": [
+        { "id": "t9_1", "date": "2025-07-08", "label": "Submitted", "color": "#0ea5e9", "note": "" },
+        { "id": "t9_2", "date": "2025-08-05", "label": "Minor Revision", "color": "#a855f7", "note": "" },
+        { "id": "t9_3", "date": "2025-08-20", "label": "Accepted", "color": "#22c55e", "note": "" }
+      ],
+      "workId": "work_stoten_01",
+      "deadline": "",
+      "account": {}
+    },
+    {
+      "id": "p10",
+      "title": "An integrated Multi-Criteria Decision Making framework for optimal EV charging station placement",
+      "journal": "Applied Energy",
+      "role": "first",
+      "status": "withdrawn",
+      "trackingUrl": "https://www.editorialmanager.com/apenergy/",
+      "manuscriptId": "APEN-D-25-00123",
+      "coAuthors": "Zhao P",
+      "submittedDate": "2025-02-15",
+      "notes": "投出去一周后发现代码存在重大逻辑漏洞，主动联系编辑撤稿。修好后再投。",
+      "priority": 1,
+      "tags": ["EV Charging", "MCDM", "Energy"],
+      "timeline": [
+        { "id": "t10_1", "date": "2025-02-15", "label": "Submitted", "color": "#0ea5e9", "note": "" },
+        { "id": "t10_2", "date": "2025-02-22", "label": "Withdrawn", "color": "#94a3b8", "note": "主动撤稿" }
+      ],
+      "workId": "work_ev_01",
+      "deadline": "",
+      "account": {}
+    },
+    {
+      "id": "p11",
+      "title": "An integrated Multi-Criteria Decision Making framework for optimal EV charging station placement",
+      "journal": "Energy",
+      "role": "first",
+      "status": "submitted",
+      "trackingUrl": "https://www.editorialmanager.com/egy/",
+      "manuscriptId": "EGY-D-26-03310",
+      "coAuthors": "Zhao P",
+      "submittedDate": "2026-03-10",
+      "notes": "修好Bug后，润色了一下转投Energy。",
+      "priority": 2,
+      "tags": ["EV Charging", "MCDM", "Energy"],
+      "timeline": [
+        { "id": "t11_1", "date": "2026-03-10", "label": "Submitted", "color": "#0ea5e9", "note": "" }
+      ],
+      "workId": "work_ev_01",
+      "deadline": "",
+      "account": {}
+    },
+    {
+      "id": "p12",
+      "title": "Social sensing for disaster damage assessment: A case study of the 2023 floods",
+      "journal": "International Journal of Disaster Risk Reduction",
+      "role": "other",
+      "status": "revision",
+      "trackingUrl": "https://www.editorialmanager.com/ijdrr/",
+      "manuscriptId": "IJDRR-25-881",
+      "coAuthors": "Student B",
+      "submittedDate": "2025-11-20",
+      "notes": "带学生的文章，帮忙改了方法部分。小修，基本稳了。",
+      "priority": 1,
+      "tags": ["Social Media", "Disaster", "Flood"],
+      "timeline": [
+        { "id": "t12_1", "date": "2025-11-20", "label": "Submitted", "color": "#0ea5e9", "note": "" },
+        { "id": "t12_2", "date": "2026-02-05", "label": "Minor Revision", "color": "#a855f7", "note": "" }
+      ],
+      "workId": "",
+      "deadline": "2026-04-01",
+      "account": {}
+    },
+    {
+      "id": "p13",
+      "title": "面向数字孪生城市的建筑单体LOD3级自动化精细建模方法",
+      "journal": "测绘学报",
+      "role": "first",
+      "status": "under_review",
+      "trackingUrl": "http://chxb.cbpt.cnki.net/",
+      "manuscriptId": "CHXB-2026-0155",
+      "coAuthors": "王强, 导师",
+      "submittedDate": "2026-02-28",
+      "notes": "测绘学报审稿极严，希望能给修的机会。",
+      "priority": 3,
+      "tags": ["数字孪生", "LOD3", "3D建模", "测绘"],
+      "timeline": [
+        { "id": "t13_1", "date": "2026-02-28", "label": "Submitted", "color": "#0ea5e9", "note": "" },
+        { "id": "t13_2", "date": "2026-03-10", "label": "Under Review", "color": "#f59e0b", "note": "" }
+      ],
+      "workId": "",
+      "deadline": "",
+      "account": {}
+    },
+    {
+      "id": "p14",
+      "title": "Monitoring global urban expansion using nighttime light data and deep learning",
+      "journal": "Remote Sensing of Environment",
+      "role": "co_corresponding",
+      "status": "rejected",
+      "trackingUrl": "https://www.editorialmanager.com/rse/",
+      "manuscriptId": "RSE-D-25-0811",
+      "coAuthors": "Sun L, Zhang W",
+      "submittedDate": "2025-05-10",
+      "notes": "RSE要求太高，主编觉得全球尺度的创新还是不够。",
+      "priority": 1,
+      "tags": ["Nighttime Light", "Urban Expansion", "RSE"],
+      "timeline": [
+        { "id": "t14_1", "date": "2025-05-10", "label": "Submitted", "color": "#0ea5e9", "note": "" },
+        { "id": "t14_2", "date": "2025-06-15", "label": "Rejected", "color": "#ef4444", "note": "Desk Reject" }
+      ],
+      "workId": "work_ntl_01",
+      "deadline": "",
+      "account": {}
+    },
+    {
+      "id": "p15",
+      "title": "Monitoring global urban expansion using nighttime light data and deep learning",
+      "journal": "ISPRS Journal of Photogrammetry and Remote Sensing",
+      "role": "co_corresponding",
+      "status": "accepted",
+      "trackingUrl": "https://www.editorialmanager.com/photo/",
+      "manuscriptId": "PHOTO-D-25-1109",
+      "coAuthors": "Sun L, Zhang W",
+      "submittedDate": "2025-07-01",
+      "notes": "RSE被拒后，补充了实验投ISPRS，经历一轮大修后接收。",
+      "priority": 2,
+      "tags": ["Nighttime Light", "Urban Expansion"],
+      "timeline": [
+        { "id": "t15_1", "date": "2025-07-01", "label": "Submitted", "color": "#0ea5e9", "note": "" },
+        { "id": "t15_2", "date": "2025-09-10", "label": "Major Revision", "color": "#a855f7", "note": "" },
+        { "id": "t15_3", "date": "2025-12-05", "label": "Accepted", "color": "#22c55e", "note": "" }
+      ],
+      "workId": "work_ntl_01",
+      "deadline": "",
+      "account": {}
+    }
+  ],
+  "reviews": [
+    {
+      "id": "r1",
+      "journal": "应用生态学报",
+      "paperTitle": "祁连山国家公园高寒草地植物群落特征对气候变化的响应",
+      "round": 2,
+      "inviteDate": "2026-02-10",
+      "dueDate": "2026-02-24",
+      "decision": "accept",
+      "link": "http://www.cjae.net/",
+      "notes": "这是第二轮审稿。作者已经充分回答了我一审提出的关于采样点分布不均的问题，补充了协方差分析，同意录用。",
+      "status": "completed",
+      "timeline": [
+        { "id": "rt1_1", "date": "2026-02-10", "label": "Invitation accepted", "color": "#22c55e", "note": "" },
+        { "id": "rt1_2", "date": "2026-02-18", "label": "Review submitted", "color": "#059669", "note": "Accept" }
+      ],
+      "account": { "username": "reviewer_eco", "password": "eco_rev123" },
+      "reviewWorkId": "rwork_eco_01"
+    },
+    {
+      "id": "r2",
+      "journal": "Engineering Structures",
+      "paperTitle": "Fatigue behavior and damage evolution of precast segmental bridge columns",
+      "round": 3,
+      "inviteDate": "2026-03-01",
+      "dueDate": "2026-03-15",
+      "decision": "minor",
+      "link": "https://www.editorialmanager.com/engstruct/",
+      "notes": "极其艰苦的审稿拉锯战。到了第三审，依然有几处文字表达和公式符号不规范。给出小修。",
+      "status": "completed",
+      "timeline": [
+        { "id": "rt2_1", "date": "2026-03-01", "label": "Invitation accepted", "color": "#22c55e", "note": "Round 3 review" },
+        { "id": "rt2_2", "date": "2026-03-10", "label": "Review submitted", "color": "#059669", "note": "Minor Revision" }
+      ],
+      "account": { "username": "civil_rev", "password": "eng_str_pwd" },
+      "reviewWorkId": "rwork_civil_02"
+    },
+    {
+      "id": "r3",
+      "journal": "Journal of Cleaner Production",
+      "paperTitle": "Life cycle assessment of recycled aggregate concrete combined with geo-polymer",
+      "round": 1,
+      "inviteDate": "2026-03-25",
+      "dueDate": "2026-04-15",
+      "decision": "none",
+      "link": "https://www.editorialmanager.com/jclepro/",
+      "notes": "刚刚接受邀请，LCA这部分数据量很大，需要仔细核对系统边界是否合理。计划本周末看。",
+      "status": "pending",
+      "timeline": [
+        { "id": "rt3_1", "date": "2026-03-25", "label": "Invitation accepted", "color": "#22c55e", "note": "" }
+      ],
+      "account": {},
+      "reviewWorkId": ""
+    },
+    {
+      "id": "r4",
+      "journal": "ISPRS Journal of Photogrammetry and Remote Sensing",
+      "paperTitle": "Few-shot learning for building extraction from VHR satellite imagery across domain shifts",
+      "round": 1,
+      "inviteDate": "2025-11-20",
+      "dueDate": "2025-12-20",
+      "decision": "major",
+      "link": "https://www.editorialmanager.com/photo/",
+      "notes": "想法很好，少样本学习在遥感里的应用是热点。但是对比实验只用了基线模型，缺乏最新的SOTA对比，给大修。",
+      "status": "completed",
+      "timeline": [
+        { "id": "rt4_1", "date": "2025-11-20", "label": "Invitation accepted", "color": "#22c55e", "note": "" },
+        { "id": "rt4_2", "date": "2025-12-10", "label": "Review submitted", "color": "#059669", "note": "Major Revision" }
+      ],
+      "account": {},
+      "reviewWorkId": "rwork_geoai_03"
+    },
+    {
+      "id": "r5",
+      "journal": "Nature Communications",
+      "paperTitle": "Global patterns of urban green space inequity revealed by satellite imagery",
+      "round": 1,
+      "inviteDate": "2026-03-28",
+      "dueDate": "2026-04-10",
+      "decision": "none",
+      "link": "https://reviewer.nature.com/",
+      "notes": "顶刊审稿邀请！文章非常符合我的研究兴趣。距离截止日期很近了，优先处理。",
+      "status": "pending",
+      "timeline": [
+        { "id": "rt5_1", "date": "2026-03-28", "label": "Invitation accepted", "color": "#22c55e", "note": "" }
+      ],
+      "account": { "username": "my_email@outlook.com", "password": "Nat_password_123" },
+      "reviewWorkId": ""
+    },
+    {
+      "id": "r6",
+      "journal": "地理科学",
+      "paperTitle": "基于位置服务数据的成渝城市群流动人口空间网络特征分析",
+      "round": 1,
+      "inviteDate": "2025-05-10",
+      "dueDate": "2025-06-10",
+      "decision": "reject",
+      "link": "http://www.geoscien.neigae.ac.cn/",
+      "notes": "数据源很单一，且空间网络分析方法陈旧，没有得出新颖的地理学结论。直接拒稿。",
+      "status": "completed",
+      "timeline": [
+        { "id": "rt6_1", "date": "2025-05-10", "label": "Invitation accepted", "color": "#22c55e", "note": "" },
+        { "id": "rt6_2", "date": "2025-05-25", "label": "Review submitted", "color": "#059669", "note": "Reject" }
+      ],
+      "account": {},
+      "reviewWorkId": ""
+    },
+    {
+      "id": "r7",
+      "journal": "Transportation Research Part D: Transport and Environment",
+      "paperTitle": "Impact of shared autonomous vehicles on urban emissions",
+      "round": 2,
+      "inviteDate": "2026-01-15",
+      "dueDate": "2026-02-15",
+      "decision": "minor",
+      "link": "https://www.editorialmanager.com/trd/",
+      "notes": "作者已经按要求增加了敏感性分析，结论稳健了许多，建议小修后录用。",
+      "status": "completed",
+      "timeline": [
+        { "id": "rt7_1", "date": "2026-01-15", "label": "Invitation accepted", "color": "#22c55e", "note": "" },
+        { "id": "rt7_2", "date": "2026-01-28", "label": "Review submitted", "color": "#059669", "note": "Minor Revision" }
+      ],
+      "account": {},
+      "reviewWorkId": "rwork_trd_01"
+    },
+    {
+      "id": "r8",
+      "journal": "Landscape and Urban Planning",
+      "paperTitle": "Cooling effects of urban parks during extreme heatwaves",
+      "round": 1,
+      "inviteDate": "2025-08-05",
+      "dueDate": "2025-09-05",
+      "decision": "major",
+      "link": "https://www.editorialmanager.com/landurbplan/",
+      "notes": "方法合理，但是讨论部分不够深入，没有和之前温带城市的研究进行充分对比。",
+      "status": "completed",
+      "timeline": [
+        { "id": "rt8_1", "date": "2025-08-05", "label": "Invitation accepted", "color": "#22c55e", "note": "" },
+        { "id": "rt8_2", "date": "2025-08-20", "label": "Review submitted", "color": "#059669", "note": "Major Revision" }
+      ],
+      "account": {},
+      "reviewWorkId": "rwork_lup_01"
+    },
+    {
+      "id": "r9",
+      "journal": "Remote Sensing",
+      "paperTitle": "Mapping crop phenology using Sentinel-1 and Sentinel-2 time series",
+      "round": 1,
+      "inviteDate": "2025-11-01",
+      "dueDate": "2025-11-15",
+      "decision": "accept",
+      "link": "https://susy.mdpi.com/",
+      "notes": "MDPI的期刊，要求2周内审完。文章写得很规范，工作量足够，直接给了接收。",
+      "status": "completed",
+      "timeline": [
+        { "id": "rt9_1", "date": "2025-11-01", "label": "Invitation accepted", "color": "#22c55e", "note": "" },
+        { "id": "rt9_2", "date": "2025-11-08", "label": "Review submitted", "color": "#059669", "note": "Accept" }
+      ],
+      "account": {},
+      "reviewWorkId": ""
+    },
+    {
+      "id": "r10",
+      "journal": "建筑结构学报",
+      "paperTitle": "新型钢-混组合梁抗弯性能试验研究",
+      "round": 1,
+      "inviteDate": "2026-03-20",
+      "dueDate": "2026-04-20",
+      "decision": "none",
+      "link": "http://www.jzjgxb.com/",
+      "notes": "国内本领域顶刊审稿，准备细看实验数据部分。",
+      "status": "pending",
+      "timeline": [
+        { "id": "rt10_1", "date": "2026-03-20", "label": "Invitation accepted", "color": "#22c55e", "note": "" }
+      ],
+      "account": {},
+      "reviewWorkId": ""
+    },
+    {
+      "id": "r11",
+      "journal": "Urban Studies",
+      "paperTitle": "Gentrification prediction using street view imagery and machine learning",
+      "round": 1,
+      "inviteDate": "2025-06-15",
+      "dueDate": "2025-07-15",
+      "decision": "reject",
+      "link": "https://mc.manuscriptcentral.com/us",
+      "notes": "模型精度很低，且作者对gentrification的社会学定义理解有偏差。",
+      "status": "completed",
+      "timeline": [
+        { "id": "rt11_1", "date": "2025-06-15", "label": "Invitation accepted", "color": "#22c55e", "note": "" },
+        { "id": "rt11_2", "date": "2025-07-05", "label": "Review submitted", "color": "#059669", "note": "Reject" }
+      ],
+      "account": {},
+      "reviewWorkId": ""
+    },
+    {
+      "id": "r12",
+      "journal": "Sustainable Cities and Society",
+      "paperTitle": "Optimization of urban green infrastructure for carbon neutrality",
+      "round": 1,
+      "inviteDate": "2025-10-10",
+      "dueDate": "2025-11-10",
+      "decision": "minor",
+      "link": "https://www.editorialmanager.com/scs/",
+      "notes": "逻辑清晰，仅需润色语言和规范参考文献格式。",
+      "status": "completed",
+      "timeline": [
+        { "id": "rt12_1", "date": "2025-10-10", "label": "Invitation accepted", "color": "#22c55e", "note": "" },
+        { "id": "rt12_2", "date": "2025-10-25", "label": "Review submitted", "color": "#059669", "note": "Minor Revision" }
+      ],
+      "account": {},
+      "reviewWorkId": ""
+    },
+    {
+      "id": "r13",
+      "journal": "Science of The Total Environment",
+      "paperTitle": "Heavy metal accumulation in urban soils and human health risk assessment",
+      "round": 2,
+      "inviteDate": "2025-12-05",
+      "dueDate": "2025-12-20",
+      "decision": "accept",
+      "link": "https://www.editorialmanager.com/stoten/",
+      "notes": "一审大修，二审作者认真回复了所有质疑，同意接收。",
+      "status": "completed",
+      "timeline": [
+        { "id": "rt13_1", "date": "2025-12-05", "label": "Invitation accepted", "color": "#22c55e", "note": "" },
+        { "id": "rt13_2", "date": "2025-12-15", "label": "Review submitted", "color": "#059669", "note": "Accept" }
+      ],
+      "account": {},
+      "reviewWorkId": "rwork_stoten_02"
+    },
+    {
+      "id": "r14",
+      "journal": "遥感学报",
+      "paperTitle": "基于多时相星载SAR的城市地表形变监测与机理分析",
+      "round": 1,
+      "inviteDate": "2026-03-29",
+      "dueDate": "2026-04-20",
+      "decision": "none",
+      "link": "http://www.jrs.ac.cn/",
+      "notes": "今天刚收到的审稿邀请，形变机理部分看着有点薄弱，先存着慢慢看。",
+      "status": "pending",
+      "timeline": [
+        { "id": "rt14_1", "date": "2026-03-29", "label": "Invitation accepted", "color": "#22c55e", "note": "" }
+      ],
+      "account": {},
+      "reviewWorkId": ""
+    },
+    {
+      "id": "r15",
+      "journal": "Cities",
+      "paperTitle": "Analyzing the spatial decay of urban vitality around subway stations",
+      "round": 1,
+      "inviteDate": "2025-07-02",
+      "dueDate": "2025-08-02",
+      "decision": "major",
+      "link": "https://www.editorialmanager.com/cities/",
+      "notes": "活力指标的选取过于主观，建议引入POI数据进行交叉验证，给大修。",
+      "status": "completed",
+      "timeline": [
+        { "id": "rt15_1", "date": "2025-07-02", "label": "Invitation accepted", "color": "#22c55e", "note": "" },
+        { "id": "rt15_2", "date": "2025-07-28", "label": "Review submitted", "color": "#059669", "note": "Major Revision" }
+      ],
+      "account": {},
+      "reviewWorkId": ""
+    }
+  ],
+  "labels": [
+    "Submitted",
+    "With Editor",
+    "Under Review",
+    "Review Complete",
+    "Minor Revision",
+    "Major Revision",
+    "Revision Submitted",
+    "Accepted",
+    "Rejected",
+    "Withdrawn",
+    "Decision Pending",
+    "Proof Received",
+    "Published",
+    "Invitation accepted",
+    "Review submitted"
+  ],
+  "exportDate": "2026-03-29",
+  "version": "4"
+}

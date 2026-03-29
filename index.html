@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="投稿审稿管理">
+<title>投稿审稿管理工具</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📑</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+<style>
+:root{--bg:#f5f3f0;--card:#fff;--border:#e4e0db;--text:#1c1917;--t2:#57534e;--t3:#a8a29e;--ibg:#fafaf9;--ac:#7c3aed;--ac-rev:#059669;--r:10px;--sh:0 1px 3px rgba(28,25,23,.06),0 6px 16px rgba(28,25,23,.04);--shl:0 8px 40px rgba(28,25,23,.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans SC',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+.header{background:linear-gradient(160deg,#1c1917 0%,#292524 60%,#44403c 100%);color:#fff;padding:26px 20px 20px;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-40%;right:-10%;width:300px;height:300px;background:radial-gradient(circle,rgba(124,58,237,.25) 0%,transparent 70%);pointer-events:none}
+.hi{max-width:920px;margin:0 auto;position:relative;z-index:1}
+.ha{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.header h1{font-size:21px;font-weight:900;letter-spacing:-.5px;display:flex;align-items:center;gap:8px}
+.header p{margin:3px 0 0;font-size:11.5px;opacity:.5}
+.hb{display:flex;gap:7px;flex-shrink:0;align-items:center;flex-wrap:wrap}
+.hbtn{padding:9px 18px;border-radius:10px;border:1.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;font-size:12.5px;font-weight:700;cursor:pointer;backdrop-filter:blur(8px);transition:all .2s;font-family:inherit;display:flex;align-items:center;gap:5px}
+.hbtn:hover{background:rgba(255,255,255,.18)}
+.hbtn.warn{border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.12)}
+.hbtn.rev{background:rgba(5,150,105,.2)}
+.sr{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px}
+.sc{padding:3px 9px;border-radius:7px;background:rgba(255,255,255,.08);font-size:11px;font-weight:500;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.sc b{background:rgba(255,255,255,.15);padding:1px 6px;border-radius:8px;font-size:10px;font-weight:800}
+.tabs{max-width:920px;margin:0 auto;padding:12px 20px 0;display:flex;gap:4px;border-bottom:1px solid var(--border);align-items:center}
+.tab{padding:7px 14px;border:none;background:none;font-size:13px;font-weight:600;color:var(--t3);cursor:pointer;font-family:inherit;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.tab.ac{color:var(--ac);border-bottom-color:var(--ac)}
+.tab.ac-rev{color:var(--ac-rev);border-bottom-color:var(--ac-rev)}
+.tab:hover{color:var(--t2)}
+.tab-main{font-size:14px;padding:8px 16px} /* 主标签字体 */
+.tb{max-width:920px;margin:0 auto;padding:10px 20px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sbox{flex:1;min-width:140px;position:relative}
+.sbox .ic{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:12px;opacity:.35;pointer-events:none}
+.sbox input{width:100%;padding:7px 10px 7px 30px;border-radius:var(--r);border:1px solid var(--border);background:var(--card);font-size:12.5px;color:var(--text);outline:none;font-family:inherit}
+.sbox input:focus{border-color:var(--ac)}
+.gtog{display:flex;border-radius:var(--r);border:1px solid var(--border);overflow:hidden}
+.gtog button{padding:6px 11px;border:none;background:var(--card);color:var(--t2);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
+.gtog button.ac{background:var(--ac);color:#fff}
+.gtog button.ac-rev{background:var(--ac-rev);color:#fff}
+.gtog button:not(:last-child){border-right:1px solid var(--border)}
+.ebar{max-width:920px;margin:0 auto;padding:0 20px;display:flex;justify-content:flex-end;gap:5px;margin-top:7px}
+.ebtn{padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--t2);font-size:10.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.ebtn:hover{border-color:var(--ac);color:var(--ac)}
+.ct{max-width:920px;margin:0 auto;padding:12px 20px 60px}
+.gsec{margin-bottom:24px;animation:fu .3s ease both}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.gh{display:flex;align-items:center;gap:7px;margin-bottom:9px;padding-bottom:6px;border-bottom:2px solid var(--border)}
+.gh .em{font-size:15px}.gh .lb{font-size:13px;font-weight:700}
+.gh .cn{font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:10px}
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:9px}
+.pc{background:var(--card);border-radius:11px;border:1px solid var(--border);padding:13px 15px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.pc:hover{box-shadow:var(--sh);transform:translateY(-1px)}
+.pc.dimmed{opacity:.6;background:#f8f9fa;order:999}
+.pc .ab{position:absolute;top:0;left:0;right:0;height:3px;border-radius:11px 11px 0 0}
+.ctop{display:flex;justify-content:space-between;align-items:flex-start;gap:7px;margin-bottom:4px}
+.ctt{font-size:13px;font-weight:700;line-height:1.35;flex:1;word-break:break-word}
+.rtag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0}
+.cjn{font-size:11.5px;color:var(--t2);font-style:italic;margin-bottom:7px}
+.sbdg{display:inline-flex;align-items:center;gap:3px;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.cbot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:5px}
+.qbs{display:flex;gap:3px;flex-wrap:wrap}
+.qb{background:none;border:1px solid var(--border);border-radius:5px;padding:2px 4px;font-size:10px;cursor:pointer;opacity:.35;transition:all .15s;line-height:1}
+.qb:hover{opacity:1}
+.clk{display:inline-flex;align-items:center;gap:3px;margin-top:6px;font-size:10.5px;color:var(--ac);text-decoration:none;opacity:.7}
+.clk:hover{opacity:1}
+.cmeta{font-size:10px;color:var(--t3);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.cmeta .urgent{color:#ef4444;font-weight:600}
+.ctlm{margin-top:7px;padding-top:7px;border-top:1px dashed var(--border)}
+.ctlm .ev{font-size:10px;color:var(--t3);display:flex;align-items:center;gap:4px;padding:1px 0}
+.ctlm .ev .dot{width:4px;height:4px;border-radius:50%;flex-shrink:0}
+.pri{display:inline-flex;align-items:center;gap:1px;font-size:9px}
+.pri .star{color:#f59e0b;cursor:pointer}
+.pri .star.off{color:var(--border)}
+.hist-chain{margin-top:6px;display:flex;align-items:center;gap:3px;flex-wrap:wrap}
+.hist-link{font-size:9.5px;padding:1px 6px;border-radius:4px;background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;text-decoration:none;cursor:pointer;display:flex;align-items:center;gap:2px;transition:all .15s}
+.hist-link:hover{border-color:var(--ac);color:var(--ac)}
+.hist-link.current{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700}
+.hist-arrow{color:var(--t3);font-size:9px}
+.round-badge{position:absolute;top:8px;right:10px;font-size:9px;font-weight:800;padding:1px 6px;border-radius:4px;background:rgba(124,58,237,.1);color:var(--ac)}
+.tags-row{display:flex;gap:3px;flex-wrap:wrap;margin-top:5px}
+.tag-sm{font-size:9.5px;padding:1px 5px;border-radius:3px;background:#f1f5f9;color:#475569;border:1px solid #e2e8f0}
+.ep{text-align:center;padding:50px 20px;color:var(--t3)}
+.ep .big{font-size:44px;margin-bottom:10px}
+.ep .mg{font-size:13.5px;font-weight:600;margin-bottom:4px;color:var(--t2)}
+.ep .su{font-size:12px}
+.ep .ebtn{margin-top:16px;display:inline-flex;font-size:12px;padding:8px 16px}
+.mo{position:fixed;inset:0;background:rgba(28,25,23,.5);display:flex;align-items:center;justify-content:center;z-index:999;backdrop-filter:blur(4px);padding:10px;animation:fi .2s ease}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+.md{background:var(--card);border-radius:14px;width:100%;max-width:580px;max-height:92vh;overflow:auto;padding:22px;box-shadow:var(--shl);animation:su .25s ease}
+@keyframes su{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.mh h2{font-size:16px;font-weight:800}
+.xbtn{background:none;border:none;font-size:18px;cursor:pointer;color:var(--t3);padding:4px}
+.fg{margin-bottom:11px}
+.fl{display:block;font-size:10px;font-weight:700;color:var(--t2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.3px}
+.fi{width:100%;padding:7px 10px;border-radius:7px;border:1px solid var(--border);background:var(--ibg);color:var(--text);font-size:12.5px;outline:none;font-family:inherit;transition:border .15s}
+.fi:focus{border-color:var(--ac)}
+.fi.rev:focus{border-color:var(--ac-rev)}
+textarea.fi{resize:vertical;min-height:42px}
+.fr{display:flex;gap:10px}
+.fr>*{flex:1}
+.fr .nw{flex:0 0 140px}
+.fr .nw2{flex:0 0 100px}
+.so{display:flex;gap:4px;flex-wrap:wrap}
+.sop{padding:5px 9px;border-radius:7px;border:1px solid var(--border);background:transparent;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;font-family:inherit;display:flex;align-items:center;gap:3px;color:var(--t2)}
+.sop.ac{border-width:2px;font-weight:700}
+.mf{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.bdel{padding:6px 12px;border-radius:7px;border:1px solid #fca5a5;background:#fef2f2;color:#dc2626;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit}
+.bcan{padding:6px 14px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--t2);font-size:12px;cursor:pointer;font-family:inherit}
+.bsav{padding:6px 18px;border-radius:7px;border:none;background:var(--ac);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 2px 6px rgba(124,58,237,.25)}
+.bsav:hover{background:#6d28d9}
+.bsav.rev{background:var(--ac-rev);box-shadow:0 2px 6px rgba(5,150,105,.25)}
+.bsav.rev:hover{background:#047857}
+.tls{margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.tls h3{font-size:12.5px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.tl-add{display:flex;gap:6px;margin-bottom:10px;align-items:flex-end;flex-wrap:wrap}
+.tl-add .fg{margin-bottom:0}
+.tl-list{position:relative;padding-left:16px}
+.tl-list::before{content:'';position:absolute;left:4px;top:3px;bottom:3px;width:2px;background:var(--border);border-radius:1px}
+.tl-ev{position:relative;padding:4px 0 8px 10px;font-size:11.5px}
+.tl-ev .dot{position:absolute;left:-16px;top:7px;width:9px;height:9px;border-radius:50%;border:2px solid var(--card)}
+.tl-ev .date{color:var(--t3);font-size:10px;margin-bottom:1px}
+.tl-ev .label{font-weight:600;color:var(--text)}
+.tl-ev .note{color:var(--t2);font-size:10.5px;margin-top:1px}
+.tl-ev .del-ev{position:absolute;right:0;top:4px;background:none;border:none;font-size:10px;color:var(--t3);cursor:pointer;opacity:0;transition:opacity .15s}
+.tl-ev:hover .del-ev{opacity:1}
+.hist-sec{margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.hist-sec h3{font-size:12.5px;font-weight:700;margin-bottom:8px}
+.hist-item{display:flex;align-items:center;gap:8px;padding:6px 8px;background:var(--ibg);border:1px solid var(--border);border-radius:7px;margin-bottom:5px;font-size:11.5px}
+.hist-item .jn{font-weight:600;flex-shrink:0}
+.hist-item .st{font-size:10px}
+.hist-item .sep{color:var(--t3)}
+.hist-item .go{margin-left:auto;font-size:10px;color:var(--ac);cursor:pointer;flex-shrink:0}
+.cs-row{display:flex;gap:5px;flex-wrap:wrap}
+.cs-tag{padding:2px 7px;border-radius:5px;font-size:10.5px;font-weight:600;background:var(--ibg);border:1px solid var(--border);color:var(--t2);display:flex;align-items:center;gap:3px}
+.cs-tag .x{cursor:pointer;opacity:.5;font-size:9px}
+.cs-tag .x:hover{opacity:1}
+.cs-add{padding:2px 7px;border-radius:5px;font-size:10.5px;border:1px dashed var(--border);background:none;color:var(--t3);outline:none;font-family:inherit;width:100px}
+.cs-add:focus{border-color:var(--ac);color:var(--text)}
+.det-hd{padding:18px;background:var(--card);border-radius:11px;border:1px solid var(--border);margin-bottom:14px}
+.det-hd .bk{font-size:13px;color:var(--ac);cursor:pointer;display:inline-flex;align-items:center;gap:3px;margin-bottom:8px;font-weight:600;border:1px solid var(--ac);padding:4px 12px;border-radius:6px;background:rgba(124,58,237,.05)}
+.det-hd .bk:hover{background:rgba(124,58,237,.1)}
+.det-hd h2{font-size:17px;font-weight:800;margin-bottom:4px}
+.det-hd .meta{font-size:12px;color:var(--t2);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.det-tl{background:var(--card);border-radius:11px;border:1px solid var(--border);padding:18px}
+.det-tl h3{font-size:13px;font-weight:700;margin-bottom:12px}
+.ftl{position:relative;padding-left:22px}
+.ftl::before{content:'';position:absolute;left:7px;top:5px;bottom:5px;width:2px;background:linear-gradient(to bottom,var(--ac),var(--border));border-radius:1px}
+.ftl .ev{position:relative;padding:6px 0 14px 14px}
+.ftl .ev .dot{position:absolute;left:-22px;top:9px;width:12px;height:12px;border-radius:50%;border:2.5px solid var(--card);box-shadow:0 0 0 1px var(--border)}
+.ftl .ev .date{font-size:10.5px;color:var(--t3);margin-bottom:2px;font-weight:500}
+.ftl .ev .label{font-size:13px;font-weight:700}
+.ftl .ev .note{font-size:11.5px;color:var(--t2);margin-top:2px;line-height:1.4}
+.ftl .ev .dur{font-size:9.5px;color:var(--t3);margin-top:3px;font-style:italic}
+/* 统计卡片自适应一行 */
+.dash{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-bottom:18px}
+.dash-c{background:var(--card);border-radius:9px;border:1px solid var(--border);padding:10px 8px;text-align:center}
+.dash-c .num{font-size:22px;font-weight:900;color:var(--ac);line-height:1}
+.dash-c .num.rev{color:var(--ac-rev)}
+.dash-c .lbl{font-size:10px;color:var(--t2);margin-top:3px;font-weight:600;white-space:nowrap}
+.hist-view{background:var(--card);border-radius:11px;border:1px solid var(--border);padding:18px;margin-bottom:14px}
+.hist-view h3{font-size:14px;font-weight:700;margin-bottom:12px}
+.hist-chain-full{display:flex;flex-direction:column;gap:8px}
+.hist-chain-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--ibg);cursor:pointer;transition:all .15s}
+.hist-chain-item:hover{border-color:var(--ac);box-shadow:var(--sh)}
+.hist-chain-item .round{font-size:11px;font-weight:800;color:var(--ac);background:rgba(124,58,237,.1);padding:2px 8px;border-radius:5px;flex-shrink:0}
+.hist-chain-item .info{flex:1}
+.hist-chain-item .info .jn{font-size:12.5px;font-weight:700}
+.hist-chain-item .info .tt{font-size:11px;color:var(--t2);margin-top:1px}
+.hist-chain-item .info .dates{font-size:10px;color:var(--t3);margin-top:2px}
+.hist-chain-item .stb{flex-shrink:0}
+.backup-bar{max-width:920px;margin:8px auto 0;padding:0 20px}
+.backup-banner{padding:9px 14px;border-radius:8px;background:#fffbeb;border:1px solid #fde68a;display:flex;align-items:center;gap:8px;font-size:11.5px;color:#92400e;font-weight:500}
+.backup-banner b{font-weight:700}
+.backup-banner .bbtn{margin-left:auto;padding:4px 12px;border-radius:6px;border:1px solid #fbbf24;background:#fef3c7;color:#92400e;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0}
+.backup-banner .dismiss{cursor:pointer;opacity:.5;font-size:12px;flex-shrink:0}
+.backup-banner .dismiss:hover{opacity:1}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:9px 18px;border-radius:9px;font-size:12.5px;font-weight:600;font-family:inherit;z-index:9999;animation:ti .3s ease;box-shadow:0 4px 16px rgba(0,0,0,.12);white-space:nowrap;background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+.toast.error{background:#fee2e2;color:#991b1b;border-color:#fecaca}
+@keyframes ti{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.cact{display:flex;gap:4px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);justify-content:space-between;align-items:center}
+.cact-left{display:flex;gap:4px}
+.cact-btn{font-size:10px;padding:3px 8px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--t2);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:3px}
+.cact-btn:hover{background:var(--ibg);border-color:var(--ac);color:var(--ac)}
+.cact-btn.rev:hover{border-color:var(--ac-rev);color:var(--ac-rev)}
+.cact-del{color:#dc2626;border-color:#fca5a5;background:#fef2f2}
+.cact-del:hover{background:#fee2e2;border-color:#dc2626;color:#dc2626}
+/* 账号显示样式 */
+.acc-display{margin-top:6px;padding:6px 8px;background:var(--ibg);border-radius:6px;font-size:11px;border:1px solid var(--border)}
+.acc-line{display:flex;align-items:center;gap:6px;margin:2px 0}
+.acc-label{color:var(--t3);min-width:36px}
+.acc-value{font-family:monospace;letter-spacing:0.5px}
+.acc-eye{cursor:pointer;opacity:.5;transition:opacity .2s}
+.acc-eye:hover{opacity:1}
+/* 筛选控制台 */
+.filt-console{background:var(--card);border-radius:11px;border:1px solid var(--border);padding:14px;margin:0 0 16px 0;display:flex;gap:12px;flex-wrap:wrap;align-items:end;max-width:100%}
+.filt-grp{flex:1;min-width:140px;max-width:200px}
+.filt-grp label{font-size:10px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px;display:block}
+.filt-grp select,.filt-grp input{width:100%;padding:6px 8px;border-radius:6px;border:1px solid var(--border);font-family:inherit;font-size:12px;background:var(--ibg)}
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:20px}
+.chart-box{background:var(--card);border-radius:11px;border:1px solid var(--border);padding:16px}
+.chart-box h4{font-size:12px;font-weight:700;color:var(--t2);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.chart-container{position:relative;height:220px}
+/* 大图表样式 */
+.chart-large-box{background:var(--card);border-radius:11px;border:1px solid var(--border);padding:16px;margin-top:16px}
+.chart-large-box h4{font-size:12px;font-weight:700;color:var(--t2);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.chart-container-large{position:relative;height:350px;display:flex;gap:16px}
+.chart-area{flex:1;position:relative}
+.legend-area{width:180px;max-height:350px;overflow-y:auto;border-left:1px solid var(--border);padding-left:12px}
+.legend-item{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:11px;cursor:pointer;padding:2px 4px;border-radius:4px;transition:all .2s}
+.legend-item:hover{background:var(--ibg)}
+.legend-item.hidden{opacity:.3}
+.legend-color{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.legend-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 多选模式 */
+.select-mode-bar{position:sticky;top:0;z-index:100;background:var(--card);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;margin:0 -20px 10px}
+.select-count{font-size:13px;font-weight:600}
+.select-actions{display:flex;gap:8px}
+.pc-select{position:absolute;top:8px;left:8px;z-index:10}
+.pc-checkbox{width:18px;height:18px;cursor:pointer;accent-color:var(--ac)}
+/* 账号Modal */
+.acc-modal{background:var(--card);border-radius:12px;padding:20px;max-width:400px;width:90%;margin:auto}
+.acc-row{margin-bottom:12px}
+.acc-row label{font-size:11px;font-weight:600;color:var(--t2);display:block;margin-bottom:4px}
+.acc-input-wrap{position:relative;display:flex;align-items:center}
+.acc-input-wrap input{flex:1;padding:8px 10px;border-radius:6px;border:1px solid var(--border);font-family:inherit;font-size:12.5px;padding-right:32px}
+.acc-eye-btn{position:absolute;right:8px;background:none;border:none;cursor:pointer;font-size:14px;color:var(--t3);padding:2px}
+.acc-btns{display:flex;gap:8px;margin-top:16px}
+.acc-btns button{flex:1;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--ibg);cursor:pointer;font-size:12px;font-weight:600}
+.acc-btns button.primary{background:var(--ac);color:#fff;border-color:var(--ac)}
+.acc-btns button.primary.rev{background:var(--ac-rev);border-color:var(--ac-rev)}
+.site-footer{max-width:920px;margin:40px auto 0;padding:20px;text-align:center;font-size:11px;color:var(--t3);border-top:1px solid var(--border);line-height:1.6}
+/* 修复标签重叠 - 垂直排列 */
+.tag-stack{display:flex;flex-direction:column;gap:2px;align-items:flex-end}
+@media(max-width:520px){
+  .header{padding:20px 14px 16px}.header h1{font-size:18px}
+  .tabs,.tb,.ct,.ebar,.backup-bar{padding-left:14px;padding-right:14px}
+  .cg{grid-template-columns:1fr}.fr{flex-direction:column;gap:10px}
+  .fr .nw,.fr .nw2{flex:1}.md{padding:18px 14px}
+  .hbtn{padding:7px 12px;font-size:11px}.qbs{display:none}
+  .dash{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+  .tl-add{flex-direction:column}
+  .filt-console{flex-direction:column}
+  .filt-grp{max-width:100%}
+  .chart-container-large{flex-direction:column;height:auto}
+  .legend-area{width:100%;border-left:none;border-top:1px solid var(--border);padding-left:0;padding-top:12px;max-height:200px}
+  .site-footer{margin-top:20px;padding:14px}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+
+// 版
+const COPYRIGHT = {
+  header: '\u7248\u6743\u4e3a\u5c0f\u7ea2\u4e66@\u4e0d\u8981\u778e\u8bf4 \u6240\u6709 \u007c ID\u53f7\u003a\u0039\u0035\u0035\u0039\u0033\u0030\u0031\u0030\u0038\u0037',
+  sub1: '\u4ec5\u4f9b\u79d1\u7814\u5b66\u4e60\u4f7f\u7528\uff0c\u8bf7\u52ff\u5546\u7528',
+  sub2: '\u5efa\u8bae\u002f\u5408\u4f5c\u002f\u8054\u7cfb\u90ae\u7bb1\u003a\u0061\u0063\u0061\u0064\u0065\u006d\u0069\u0063\u002e\u007a\u0073\u0074\u0040\u006f\u0075\u0074\u006c\u006f\u006f\u006b\u002e\u0063\u006f\u006d',
+  footer1: '\u00a9 \u7248\u6743\u4e3a\u5c0f\u7ea2\u4e66@\u4e0d\u8981\u778e\u8bf4 \u6240\u6709 \u007c ID\u53f7\u003a\u0039\u0035\u0035\u0039\u0033\u0030\u0031\u0030\u0038\u0037',
+  footer2: '\u535a\u4e3b\u7814\u7a76\u9886\u57df\uff1a\u57ce\u5e02 \u002f \u5730\u7406 \u002f \u73af\u5883 \u002f GeoAI',
+  footer3: '\u90ae\u7bb1\uff1a\u0061\u0063\u0061\u0064\u0065\u006d\u0069\u0063\u002e\u007a\u0073\u0074\u0040\u006f\u0075\u0074\u006c\u006f\u006f\u006b\u002e\u0063\u006f\u006d',
+  footer4: '\u7248\u672c\uff1a\u0032\u0030\u0032\u0036\u0056\u0033'
+};
+
+// 注册Chart.js插件
+Chart.register(ChartDataLabels);
+
+const ST=[{key:'preparing',label:'准备中',emoji:'📝',color:'#6366f1'},{key:'submitted',label:'已投稿',emoji:'📮',color:'#0ea5e9'},{key:'under_review',label:'审稿中',emoji:'🔬',color:'#f59e0b'},{key:'revision',label:'修回中',emoji:'🔧',color:'#a855f7'},{key:'accepted',label:'已接收',emoji:'🎉',color:'#22c55e'},{key:'rejected',label:'被拒',emoji:'❌',color:'#ef4444'},{key:'withdrawn',label:'已撤稿',emoji:'↩️',color:'#94a3b8'}];
+const RL=[{key:'first',label:'一作',bg:'#fef3c7',fg:'#92400e',bd:'#fde68a'},{key:'corresponding',label:'通讯',bg:'#ede9fe',fg:'#5b21b6',bd:'#ddd6fe'},{key:'co_first',label:'共一',bg:'#fce7f3',fg:'#9d174d',bd:'#fbcfe8'},{key:'co_corresponding',label:'共通',bg:'#dbeafe',fg:'#1e40af',bd:'#bfdbfe'},{key:'other',label:'合作者',bg:'#f1f5f9',fg:'#475569',bd:'#e2e8f0'}];
+const RV_ST=[{key:'pending',label:'待处理',emoji:'⏳',color:'#f59e0b'},{key:'completed',label:'已完成',emoji:'✅',color:'#22c55e'}];
+const RV_DEC=[{key:'',label:'待定',emoji:'🤔',color:'#9ca3af'},{key:'accept',label:'接收',emoji:'🎉',color:'#22c55e'},{key:'minor',label:'小修',emoji:'🔧',color:'#3b82f6'},{key:'major',label:'大修',emoji:'🔨',color:'#f59e0b'},{key:'reject',label:'拒稿',emoji:'❌',color:'#ef4444'}];
+// 审稿预设事件
+const RV_EVENTS=['收到邀请','接受邀请','开始审稿','提交意见','修改后重审','完成'];
+const DEF_LABELS=['Submitted','With Editor','Under Review','Review Complete','Minor Revision','Major Revision','Revision Submitted','Accepted','Rejected','Withdrawn','Decision Pending','Proof Received','Published'];
+
+const gs=k=>ST.find(s=>s.key===k)||ST[0];
+const gr=k=>RL.find(r=>r.key===k)||RL[4];
+const grv=k=>RV_ST.find(s=>s.key===k)||RV_ST[0];
+const gdec=k=>RV_DEC.find(d=>d.key===(k||''))||RV_DEC[0];
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const esc=s=>{const d=document.createElement('div');d.textContent=s;return d.innerHTML};
+const fD=d=>{if(!d)return'';const p=d.split('-');return p.length===3?p[0]+'/'+p[1]+'/'+p[2]:d};
+const dB=(a,b)=>{if(!a||!b)return 0;return Math.round((new Date(b)-new Date(a))/86400000)};
+const td=()=>new Date().toISOString().slice(0,10);
+
+let papers=[], reviews=[];
+let mainTab='papers';
+let groupBy='status', search='', editing=null, view='list', detailId=null;
+let labels=JSON.parse(localStorage.getItem('pt_lb')||'null')||[...DEF_LABELS];
+let chartInstance1=null, chartInstance2=null, chartInstance3=null;
+let filterYear='', filterMonth='', filterJournal='';
+let selectMode=false, selectedIds=new Set();
+let searchTimeout=null;
+let hiddenDatasets=new Set(); // 用于大图表图例控制
+
+const loadL=()=>{
+  try{
+    papers=JSON.parse(localStorage.getItem('pt_p2'))||[];
+    reviews=JSON.parse(localStorage.getItem('pt_rv'))||[];
+  }catch{e=>{papers=[];reviews=[]}}
+};
+const saveL=()=>{
+  localStorage.setItem('pt_p2',JSON.stringify(papers));
+  localStorage.setItem('pt_rv',JSON.stringify(reviews));
+  localStorage.setItem('pt_lb',JSON.stringify(labels));
+};
+function persist(){saveL();render()}
+function toast(m,type='success'){
+  document.querySelectorAll('.toast').forEach(t=>t.remove());
+  const t=document.createElement('div');
+  t.className='toast'+(type==='error'?' error':'');
+  t.textContent=m;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2500);
+}
+
+function getWorkChain(workId){
+  if(!workId)return[];
+  return papers.filter(p=>p.workId===workId).sort((a,b)=>(a.submittedDate||'').localeCompare(b.submittedDate||''));
+}
+function getWorkRound(p){
+  if(!p.workId)return 0;
+  const chain=getWorkChain(p.workId);
+  return chain.indexOf(p)+1;
+}
+function getWorkCount(workId){
+  if(!workId)return 0;
+  return papers.filter(p=>p.workId===workId).length;
+}
+
+function getReviewChain(workId){
+  if(!workId)return[];
+  return reviews.filter(r=>r.reviewWorkId===workId).sort((a,b)=>(a.inviteDate||'').localeCompare(b.inviteDate||''));
+}
+function getReviewRound(r){
+  if(!r.reviewWorkId)return 0;
+  const chain=getReviewChain(r.reviewWorkId);
+  return chain.indexOf(r)+1;
+}
+function getReviewWorkCount(workId){
+  if(!workId)return 0;
+  return reviews.filter(r=>r.reviewWorkId===workId).length;
+}
+
+function getLastBackup(){return localStorage.getItem('pt_lastbk')||''}
+function setLastBackup(){localStorage.setItem('pt_lastbk',td())}
+function needsBackup(){
+  const lb=getLastBackup();
+  if(!lb)return papers.length>0||reviews.length>0;
+  return dB(lb,td())>=7 && (papers.length>0||reviews.length>0);
+}
+function dismissBackup(){localStorage.setItem('pt_bkdismiss',td())}
+function isDismissed(){return localStorage.getItem('pt_bkdismiss')===td()}
+
+function doExport(){
+  const data={papers,reviews,labels,exportDate:td(),version:'2026V3'};
+  const bl=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(bl);
+  a.download='投稿审稿管理备份_'+td()+'.json';a.click();
+  setLastBackup();toast('已导出完整备份');render();
+}
+function doImport(){
+  const inp=document.createElement('input');inp.type='file';inp.accept='.json';
+  inp.onchange=e=>{
+    const f=e.target.files[0];if(!f)return;
+    const r=new FileReader();
+    r.onload=()=>{
+      try{
+        const d=JSON.parse(r.result);
+        if(d.papers&&Array.isArray(d.papers)){
+          if(confirm(`导入 ${d.papers.length} 条投稿记录和 ${(d.reviews||[]).length} 条审稿记录？\n\n确定 = 合并（保留现有+新增）\n取消 = 替换（清空现有）`)){
+            const pids=new Set(papers.map(p=>p.id));
+            const rids=new Set(reviews.map(r=>r.id));
+            papers=[...papers,...d.papers.filter(x=>!pids.has(x.id))];
+            if(d.reviews) reviews=[...reviews,...d.reviews.filter(x=>!rids.has(x.id))];
+          }else{
+            papers=d.papers;
+            if(d.reviews) reviews=d.reviews;
+          }
+          if(d.labels) labels=d.labels;
+          persist();
+          toast('导入成功');
+        }else if(Array.isArray(d)){
+          if(confirm('检测到旧版数据格式（仅投稿），是否导入？')){
+            papers=d;
+            persist();
+            toast('已导入旧版数据');
+          }
+        }else{
+          alert('格式不正确');
+        }
+      }catch{alert('文件解析失败')}
+    };
+    r.readAsText(f);
+  };
+  inp.click();
+}
+
+function getReviewUrgency(r){
+  if(!r.dueDate||r.status==='completed')return null;
+  const days=dB(td(),r.dueDate);
+  if(days<0)return{urgent:true,text:`已超期${Math.abs(days)}天`,level:3};
+  if(days<=3)return{urgent:true,text:`${days}天后截止`,level:2};
+  if(days<=7)return{urgent:false,text:`${days}天后截止`,level:1};
+  return{urgent:false,text:`${days}天后截止`,level:0};
+}
+function getDeadline(p){return p.deadline||''}
+function daysToDeadline(p){
+  const dl=getDeadline(p);
+  if(!dl)return null;
+  return dB(td(),dl);
+}
+
+function render(){
+  const app=document.getElementById('app');
+  if(detailId){renderDetail();return}
+  
+  const isPapers=mainTab==='papers';
+  
+  let baseData=isPapers?papers:reviews;
+  
+  let filteredData=baseData.filter(item=>{
+    let match=true;
+    if(filterYear){
+      const d=item.submittedDate||item.inviteDate;
+      if(d&&d.slice(0,4)!==filterYear)match=false;
+    }
+    if(filterMonth){
+      const d=item.submittedDate||item.inviteDate;
+      if(d&&d.slice(5,7)!==filterMonth)match=false;
+    }
+    if(filterJournal&&item.journal!==filterJournal)match=false;
+    return match;
+  });
+  
+  let fl=filteredData.filter(p=>{
+    if(!search)return true;
+    const q=search.toLowerCase();
+    if(isPapers){
+      return(p.title||'').toLowerCase().includes(q)||(p.journal||'').toLowerCase().includes(q)||(p.coAuthors||'').toLowerCase().includes(q)||(p.tags||[]).some(t=>t.toLowerCase().includes(q));
+    }else{
+      return(p.paperTitle||'').toLowerCase().includes(q)||(p.journal||'').toLowerCase().includes(q);
+    }
+  });
+
+  let gps=[];
+  if(isPapers){
+    if(groupBy==='status')ST.forEach(s=>{const it=fl.filter(p=>p.status===s.key);if(it.length)gps.push({...s,items:it})});
+    else if(groupBy==='role')RL.forEach(r=>{const it=fl.filter(p=>p.role===r.key);if(it.length)gps.push({emoji:'👤',label:r.label,color:'#7c3aed',items:it})});
+    else if(groupBy==='journal'){const jm={};fl.forEach(p=>{const j=p.journal||'未定';if(!jm[j])jm[j]=[];jm[j].push(p)});Object.entries(jm).sort((a,b)=>b[1].length-a[1].length).forEach(([j,items])=>gps.push({emoji:'📰',label:j,color:'#0ea5e9',items}));}
+    else if(groupBy==='priority'){[3,2,1].forEach(pr=>{const it=fl.filter(p=>(p.priority||1)===pr);if(it.length)gps.push({emoji:pr===3?'🔴':pr===2?'🟡':'⚪',label:['','普通','重要','紧急'][pr],color:pr===3?'#ef4444':pr===2?'#f59e0b':'#94a3b8',items:it})})}
+    else if(fl.length)gps.push({emoji:'📚',label:'全部',color:'#7c3aed',items:fl});
+  }else{
+    if(groupBy==='status')RV_ST.forEach(s=>{const it=fl.filter(r=>r.status===s.key);if(it.length)gps.push({...s,items:it})});
+    else if(groupBy==='decision'){RV_DEC.slice(1).forEach(d=>{const it=fl.filter(r=>r.decision===d.key&&r.status==='completed');if(it.length)gps.push({...d,label:d.label+'决定',items:it})});const pend=fl.filter(r=>!r.decision||r.status!=='completed');if(pend.length)gps.push({emoji:'⏳',label:'待定',color:'#9ca3af',items:pend})}
+    else if(groupBy==='journal'){const jm={};fl.forEach(r=>{const j=r.journal||'未定';if(!jm[j])jm[j]=[];jm[j].push(r)});Object.entries(jm).sort((a,b)=>b[1].length-a[1].length).forEach(([j,items])=>gps.push({emoji:'📰',label:j,color:'#0ea5e9',items}));}
+    else if(fl.length)gps.push({emoji:'📚',label:'全部',color:'#059669',items:fl});
+  }
+
+  let gH='';
+  if(!fl.length&&!baseData.length){
+    gH=`<div class="ep"><div class="big">${isPapers?'📭':'📪'}</div><div class="mg">暂无${isPapers?'投稿':'审稿'}记录</div><div class="su">点击「+ 新建」或导入已有数据开始使用</div><button class="ebtn" onclick="doImport()" style="margin-top:14px;font-size:12px;padding:8px 18px">📥 导入 JSON 数据</button></div>`;
+  }else if(!fl.length){
+    gH=`<div class="ep"><div class="su">没有匹配的结果</div></div>`;
+  }else{
+    gps.forEach((g,i)=>{
+      let ch='';
+      g.items.forEach(p=>{
+        if(isPapers){
+          ch+=renderPaperCard(p);
+        }else{
+          ch+=renderReviewCard(p);
+        }
+      });
+      const cnColor=isPapers?g.color:'#059669';
+      gH+=`<div class="gsec" style="animation-delay:${i*40}ms"><div class="gh"><span class="em">${g.emoji}</span><span class="lb">${g.label}</span><span class="cn" style="background:${cnColor}15;color:${cnColor}">${g.items.length}</span></div><div class="cg">${ch}</div></div>`;
+    });
+  }
+
+  let dashContent='';
+  let filtContent='';
+  if(view==='dashboard'){
+    dashContent=renderDashboard(fl);
+    filtContent=renderFilterConsole();
+  }
+
+  let selectBar='';
+  if(selectMode && view==='list'){
+    selectBar=`<div class="select-mode-bar"><span class="select-count">已选择 ${selectedIds.size} 项</span><div class="select-actions"><button class="ebtn" onclick="exitSelectMode()">取消</button><button class="ebtn" style="color:#dc2626;border-color:#fca5a5" onclick="batchDelete()">🗑 批量删除</button></div></div>`;
+  }
+
+  let bkH='';
+  if(needsBackup()&&!isDismissed()){
+    const lb=getLastBackup();
+    bkH=`<div class="backup-bar"><div class="backup-banner">⚠️ <b>${lb?'距上次备份已超过7天':'你还没有备份过数据'}，建议导出JSON到本地保存</b><button class="bbtn" id="bkExport">立即备份</button><span class="dismiss" id="bkDismiss" title="今日不再提醒">✕</span></div></div>`;
+  }
+
+  let stH='';
+  if(isPapers){
+    const cnt={};ST.forEach(s=>{cnt[s.key]=papers.filter(p=>p.status===s.key).length});
+    ST.forEach(s=>{if(cnt[s.key])stH+=`<div class="sc">${s.emoji} ${s.label} <b>${cnt[s.key]}</b></div>`});
+  }else{
+    const total=reviews.length;
+    const comp=reviews.filter(r=>r.status==='completed').length;
+    const pend=reviews.filter(r=>r.status==='pending').length;
+    stH=`<div class="sc">📪 总邀请 <b>${total}</b></div><div class="sc">✅ 已完成 <b>${comp}</b></div><div class="sc">⏳ 待处理 <b>${pend}</b></div>`;
+  }
+
+  const newBtnClass=isPapers?'':'rev';
+  const acTabClass=isPapers?'ac':'ac-rev';
+  
+  // 直接使用 COPYRIGHT 对象
+  app.innerHTML=`
+  <div class="header"><div class="hi"><div class="ha"><div><h1>📑 投稿审稿管理工具</h1><p>数据存储在本地浏览器 · 建议定期导出备份</p><p style="font-size: 0.65rem; color: #6c757d; margin-top: 4px;">${COPYRIGHT.header}</p><p style="font-size: 0.6rem; color: #6c757d; margin-top: 4px;">${COPYRIGHT.sub1}</p><p style="font-size: 0.65rem; color: #6c757d; margin-top: 4px;">${COPYRIGHT.sub2}</p></div><div class="hb"><button class="hbtn" onclick="doImport()">📥 导入</button><button class="hbtn" onclick="doExport()">📋 导出备份</button><button class="hbtn ${newBtnClass}" id="xNew">+ 新建${isPapers?'投稿':'审稿'}</button></div></div>${(isPapers?papers:reviews).length?`<div class="sr">${stH}</div>`:''}</div></div>
+  ${bkH}
+  <div class="tabs">
+    <button class="tab tab-main ${isPapers?acTabClass:''}" data-t="papers">📝 投稿管理</button>
+    <button class="tab tab-main ${!isPapers?acTabClass:''}" data-t="reviews">📪 审稿管理</button>
+  </div>
+  <div class="tabs" style="padding-top:0;border-bottom:none;margin-top:4px">
+    <button class="tab ${view==='list'?'ac':''}" data-v="list">📋 列表</button>
+    <button class="tab ${view==='dashboard'?'ac':''}" data-v="dashboard">📊 统计</button>
+    ${view==='list'?`<button class="tab" onclick="toggleSelectMode()" style="margin-left:auto;font-size:12px">${selectMode?'退出多选':'☑️ 多选'}</button>`:''}
+  </div>
+  ${view==='list'?`
+  <div class="tb">
+    <div class="sbox"><span class="ic">🔍</span><input id="xSch" placeholder="搜索标题、期刊、合作者、标签..." value="${esc(search)}"></div>
+    <div class="gtog">
+      ${isPapers?`
+      <button class="${groupBy==='status'?'ac':''}" data-g="status">状态</button>
+      <button class="${groupBy==='role'?'ac':''}" data-g="role">身份</button>
+      <button class="${groupBy==='journal'?'ac':''}" data-g="journal">期刊</button>
+      <button class="${groupBy==='priority'?'ac':''}" data-g="priority">优先级</button>
+      <button class="${groupBy==='none'?'ac':''}" data-g="none">全部</button>
+      `:`
+      <button class="${groupBy==='status'?'ac-rev':''}" data-g="status">状态</button>
+      <button class="${groupBy==='decision'?'ac-rev':''}" data-g="decision">决定</button>
+      <button class="${groupBy==='journal'?'ac-rev':''}" data-g="journal">期刊</button>
+      <button class="${groupBy==='none'?'ac-rev':''}" data-g="none">全部</button>
+      `}
+    </div>
+  </div>
+  `:''}
+  <div class="ct">${selectBar}${view==='dashboard'?filtContent:''}${dashContent}${view==='list'?gH:''}</div>
+  <div class="site-footer">
+    ${COPYRIGHT.footer1}<br>
+    ${COPYRIGHT.footer2}<br>
+    ${COPYRIGHT.footer3}<br>
+    ${COPYRIGHT.footer4}
+  </div>`;
+
+  bindEvents();
+}
+
+function renderPaperCard(p){
+  const st=gs(p.status),rl=gr(p.role);
+  let qb='';ST.filter(s=>s.key!==p.status).forEach(s=>{qb+=`<button class="qb" title="${s.label}" data-id="${p.id}" data-st="${s.key}" onmouseenter="this.style.borderColor='${s.color}';this.style.background='${s.color}18'" onmouseleave="this.style.borderColor='';this.style.background=''">${s.emoji}</button>`});
+  let pri='';const pv=p.priority||1;for(let i=1;i<=3;i++)pri+=`<span class="star ${i<=pv?'':'off'}" data-id="${p.id}" data-pr="${i}">★</span>`;
+  const round=getWorkRound(p);const wc=getWorkCount(p.workId);
+  const roundH=wc>1?`<span class="round-badge">第${round}轮 / 共${wc}轮</span>`:'';
+  let histH='';
+  if(p.workId&&wc>1){
+    const chain=getWorkChain(p.workId);
+    histH='<div class="hist-chain">';
+    chain.forEach((cp,ci)=>{
+      if(ci>0)histH+='<span class="hist-arrow">→</span>';
+      histH+=`<span class="hist-link ${cp.id===p.id?'current':''}" data-goid="${cp.id}">${cp.journal||'?'} ${gs(cp.status).emoji}</span>`;
+    });
+    histH+='</div>';
+  }
+  let tlM='';
+  if(p.timeline&&p.timeline.length){
+    const last=p.timeline.slice(-3);
+    tlM='<div class="ctlm">';last.forEach(ev=>{tlM+=`<div class="ev"><span class="dot" style="background:${ev.color||'#94a3b8'}"></span>${fD(ev.date)} · ${esc(ev.label)}</div>`});
+    if(p.timeline.length>3)tlM+=`<div class="ev" style="opacity:.5">… 共${p.timeline.length}条</div>`;
+    tlM+='</div>';
+  }
+  let tagH='';if(p.tags&&p.tags.length){tagH='<div class="tags-row">';p.tags.forEach(t=>{tagH+=`<span class="tag-sm">${esc(t)}</span>`});tagH+='</div>'}
+  let metaH='';
+  if(p.submittedDate)metaH+=`<span>投稿: ${fD(p.submittedDate)}</span>`;
+  if(p.submittedDate&&!['accepted','rejected','withdrawn'].includes(p.status)){const d=dB(p.submittedDate,td());if(d>0)metaH+=`<span>已${d}天</span>`}
+  if(p.manuscriptId)metaH+=`<span>${esc(p.manuscriptId)}</span>`;
+  const dtd=daysToDeadline(p);
+  if(dtd!==null&&dtd>=0&&p.status==='revision')metaH+=`<span class="${dtd<=7?'urgent':''}">⏰ ${dtd===0?'今天截止':dtd+'天后截止'}</span>`;
+  else if(dtd!==null&&dtd<0&&p.status==='revision')metaH+=`<span class="urgent">⚠️ 已超期${Math.abs(dtd)}天</span>`;
+  let exH='';if(p.trackingUrl)exH+=`<a class="clk" href="${esc(p.trackingUrl)}" target="_blank" onclick="event.stopPropagation()">🔗 追踪链接</a>`;
+
+  let selectCheckbox='';
+  if(selectMode){
+    selectCheckbox=`<div class="pc-select"><input type="checkbox" class="pc-checkbox" ${selectedIds.has(p.id)?'checked':''} onchange="toggleSelect('${p.id}')" onclick="event.stopPropagation()"></div>`;
+  }
+
+  // 账号按钮
+  let accBtn = '';
+  if(p.account?.username){
+    accBtn = `<button class="cact-btn" onclick="event.stopPropagation();openAccountModal('${p.id}','paper')">🔑 账号</button>`;
+  }
+
+  return `<div class="pc" data-eid="${p.id}">${selectCheckbox}${roundH}<div class="ab" style="background:${st.color}"></div><div class="ctop"><div class="ctt">${esc(p.title)||'（未命名）'}</div></div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div class="cjn">${p.journal?esc(p.journal):'<span style="opacity:.4;font-style:normal">期刊待定</span>'}</div><div class="tag-stack"><span class="sbdg" style="background:${st.color}15;color:${st.color};border:1px solid ${st.color}30">${st.emoji} ${st.label}</span><span class="rtag" style="background:${rl.bg};color:${rl.fg};border:1px solid ${rl.bd}">${rl.label}</span></div></div><div style="display:flex;justify-content:space-between;align-items:center"><div class="pri">${pri}</div><div class="qbs">${qb}</div></div>${metaH?`<div class="cmeta">${metaH}</div>`:''}${exH}${histH}${tagH}${tlM}<div class="cact"><div class="cact-left"><button class="cact-btn" onclick="event.stopPropagation();viewTimeline('${p.id}')">📅 时间线</button>${accBtn}</div><button class="cact-btn cact-del" onclick="event.stopPropagation();deleteItem('${p.id}','paper')">🗑️</button></div></div>`;
+}
+
+function renderReviewCard(r){
+  const st=grv(r.status), dec=gdec(r.decision);
+  const isComp=r.status==='completed';
+  const dimmed=isComp?'dimmed':'';
+  
+  let metaH='';
+  if(r.inviteDate)metaH+=`<span>邀请: ${fD(r.inviteDate)}</span>`;
+  const urg=getReviewUrgency(r);
+  if(urg){
+    metaH+=`<span class="${urg.urgent?'urgent':''}">⏰ ${urg.text}</span>`;
+  }
+  
+  const round=getReviewRound(r);
+  const rc=getReviewWorkCount(r.reviewWorkId);
+  const roundH=rc>1?`<span class="round-badge" style="background:rgba(5,150,105,.1);color:var(--ac-rev)">第${round}轮 / 共${rc}轮</span>`:'';
+  
+  let histH='';
+  if(r.reviewWorkId&&rc>1){
+    const chain=getReviewChain(r.reviewWorkId);
+    histH='<div class="hist-chain">';
+    chain.forEach((cr,ci)=>{
+      if(ci>0)histH+='<span class="hist-arrow">→</span>';
+      const cst=grv(cr.status);
+      histH+=`<span class="hist-link ${cr.id===r.id?'current':''}" onclick="event.stopPropagation();viewReviewDetail('${cr.id}')" style="${cr.id===r.id?'background:var(--ac-rev);color:#fff;border-color:var(--ac-rev)':''}">${cr.journal||'?'} ${cst.emoji}</span>`;
+    });
+    histH+='</div>';
+  }
+  
+  let tlM='';
+  if(r.timeline&&r.timeline.length){
+    const last=r.timeline.slice(-2);
+    tlM='<div class="ctlm">';last.forEach(ev=>{tlM+=`<div class="ev"><span class="dot" style="background:${ev.color||'#94a3b8'}"></span>${fD(ev.date)} · ${esc(ev.label)}</div>`});tlM+='</div>';
+  }
+
+  let selectCheckbox='';
+  if(selectMode){
+    selectCheckbox=`<div class="pc-select"><input type="checkbox" class="pc-checkbox" ${selectedIds.has(r.id)?'checked':''} onchange="toggleSelect('${r.id}')" onclick="event.stopPropagation()"></div>`;
+  }
+
+  // 账号按钮
+  let accBtn = '';
+  if(r.account?.username){
+    accBtn = `<button class="cact-btn rev" onclick="event.stopPropagation();openAccountModal('${r.id}','review')">🔑 账号</button>`;
+  }
+
+  return `<div class="pc ${dimmed}" data-rid="${r.id}">${selectCheckbox}${roundH}<div class="ab" style="background:${isComp?dec.color:st.color}"></div><div class="ctop"><div class="ctt">${esc(r.paperTitle)||'（未命名稿件）'}</div></div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div class="cjn">${r.journal?esc(r.journal):'<span style="opacity:.4;font-style:normal">期刊待定</span>'}</div><div class="tag-stack"><span class="sbdg" style="background:${st.color}15;color:${st.color};border:1px solid ${st.color}30">${st.emoji} ${st.label}</span>${r.decision&&isComp?`<span class="sbdg" style="background:${dec.color}15;color:${dec.color};border:1px solid ${dec.color}30;font-size:9px">${dec.emoji} ${dec.label}</span>`:''}</div></div>${metaH?`<div class="cmeta">${metaH}</div>`:''}${r.link?`<a class="clk" href="${esc(r.link)}" target="_blank" onclick="event.stopPropagation()">🔗 审稿链接</a>`:''}${histH}${tlM}<div class="cact"><div class="cact-left"><button class="cact-btn rev" onclick="event.stopPropagation();completeReview('${r.id}')">${isComp?'✏️ 修改决定':'✅ 完成'}</button>${accBtn}</div><button class="cact-btn cact-del" onclick="event.stopPropagation();deleteItem('${r.id}','review')">🗑️</button></div></div>`;
+}
+
+function renderDashboard(data){
+  const isPapers=mainTab==='papers';
+  let h='<div class="dash">';
+  if(isPapers){
+    const total=data.length;
+    const active=data.filter(p=>!['accepted','rejected','withdrawn'].includes(p.status)).length;
+    const acc=data.filter(p=>p.status==='accepted').length;
+    const rej=data.filter(p=>p.status==='rejected').length;
+    const avgP=data.filter(p=>p.submittedDate&&['accepted','rejected'].includes(p.status)&&p.timeline&&p.timeline.length>1);
+    let avg=0;if(avgP.length){avg=Math.round(avgP.reduce((s,p)=>{const l=p.timeline[p.timeline.length-1];return s+dB(p.submittedDate,l.date||td())},0)/avgP.length)}
+    const rate=acc+rej>0?Math.round(acc/(acc+rej)*100):0;
+    const workIds=new Set(data.filter(p=>p.workId).map(p=>p.workId));
+    const uniqueWorks=workIds.size+(data.filter(p=>!p.workId).length);
+    h+=`
+      <div class="dash-c"><div class="num">${total}</div><div class="lbl">总投稿次数</div></div>
+      <div class="dash-c"><div class="num">${uniqueWorks}</div><div class="lbl">投稿篇数</div></div>
+      <div class="dash-c"><div class="num">${active}</div><div class="lbl">进行中</div></div>
+      <div class="dash-c"><div class="num" style="color:#22c55e">${acc}</div><div class="lbl">已接收</div></div>
+      <div class="dash-c"><div class="num" style="color:#ef4444">${rej}</div><div class="lbl">被拒</div></div>
+      <div class="dash-c"><div class="num">${avg||'—'}</div><div class="lbl">均审稿天数</div></div>
+      <div class="dash-c"><div class="num" style="color:#22c55e">${rate}%</div><div class="lbl">接收率</div></div>
+    `;
+  }else{
+    const total=data.length;
+    const comp=data.filter(r=>r.status==='completed').length;
+    const pend=data.filter(r=>r.status==='pending').length;
+    const decDist={};RV_DEC.slice(1).forEach(d=>decDist[d.key]=data.filter(r=>r.decision===d.key).length);
+    const avgDays=comp?Math.round(data.filter(r=>r.status==='completed'&&r.inviteDate).reduce((s,r)=>s+dB(r.inviteDate,td()),0)/comp):0;
+    h+=`
+      <div class="dash-c"><div class="num rev">${total}</div><div class="lbl">总审稿邀请</div></div>
+      <div class="dash-c"><div class="num rev" style="color:#22c55e">${comp}</div><div class="lbl">已完成</div></div>
+      <div class="dash-c"><div class="num rev" style="color:#f59e0b">${pend}</div><div class="lbl">待处理</div></div>
+      <div class="dash-c"><div class="num rev">${avgDays||'—'}</div><div class="lbl">平均处理天数</div></div>
+      <div class="dash-c"><div class="num rev" style="color:#22c55e">${decDist.accept||0}</div><div class="lbl">建议接收</div></div>
+      <div class="dash-c"><div class="num rev" style="color:#ef4444">${decDist.reject||0}</div><div class="lbl">建议拒稿</div></div>
+    `;
+  }
+  h+='</div>';
+  
+  h+='<div class="chart-grid">';
+  h+='<div class="chart-box"><h4>趋势分析</h4><div class="chart-container"><canvas id="chartTrend"></canvas></div></div>';
+  h+='<div class="chart-box"><h4>状态分布</h4><div class="chart-container"><canvas id="chartPie"></canvas></div></div>';
+  h+='</div>';
+  
+  // 新增大图表 - 期刊年度趋势
+  h+='<div class="chart-large-box">';
+  h+='<h4>期刊分年统计</h4>';
+  h+='<div class="chart-container-large">';
+  h+='<div class="chart-area"><canvas id="chartJournalTrend"></canvas></div>';
+  h+='<div class="legend-area" id="journalLegend"></div>';
+  h+='</div>';
+  h+='</div>';
+  
+  setTimeout(()=>drawCharts(data),100);
+  
+  return h;
+}
+
+function renderFilterConsole(){
+  const isPapers=mainTab==='papers';
+  const baseData=isPapers?papers:reviews;
+  
+  const years=[...new Set(baseData.map(x=>x.submittedDate||x.inviteDate).filter(d=>d).map(d=>d.slice(0,4)))].sort().reverse();
+  let months=[];
+  if(filterYear){
+    months=[...new Set(baseData.filter(x=>{
+      const d=x.submittedDate||x.inviteDate;
+      return d&&d.slice(0,4)===filterYear;
+    }).map(x=>{
+      const d=x.submittedDate||x.inviteDate;
+      return d?d.slice(5,7):'';
+    }))].filter(m=>m).sort();
+  }
+  const journals=[...new Set(baseData.map(x=>x.journal).filter(j=>j))].sort();
+  
+  return `<div class="filt-console">
+    <div class="filt-grp"><label>年份</label><select id="filtYear" onchange="updateFilter('year',this.value)"><option value="">全部</option>${years.map(y=>`<option value="${y}" ${filterYear===y?'selected':''}>${y}</option>`).join('')}</select></div>
+    <div class="filt-grp"><label>月份</label><select id="filtMonth" onchange="updateFilter('month',this.value)" ${!filterYear?'disabled':''}><option value="">全部</option>${months.map(m=>`<option value="${m}" ${filterMonth===m?'selected':''}>${m}月</option>`).join('')}</select></div>
+    <div class="filt-grp"><label>期刊</label><select id="filtJour" onchange="updateFilter('journal',this.value)"><option value="">全部期刊</option>${journals.map(j=>`<option value="${esc(j)}" ${filterJournal===j?'selected':''}>${esc(j)}</option>`).join('')}</select></div>
+    <button class="ebtn" onclick="clearFilters()" style="height:fit-content">重置筛选</button>
+  </div>`;
+}
+
+function drawCharts(data){
+  const isPapers=mainTab==='papers';
+  if(!data.length)return;
+  
+  const ctx1=document.getElementById('chartTrend');
+  const ctx2=document.getElementById('chartPie');
+  const ctx3=document.getElementById('chartJournalTrend');
+  if(!ctx1||!ctx2||!ctx3)return;
+  
+  if(chartInstance1)chartInstance1.destroy();
+  if(chartInstance2)chartInstance2.destroy();
+  if(chartInstance3)chartInstance3.destroy();
+  
+  Chart.defaults.font.family="'Noto Sans SC',sans-serif";
+  Chart.defaults.font.size=11;
+  
+  // 图1: 趋势分析（与原代码一致）
+  const dateMap={};
+  data.forEach(x=>{
+    const d=x.submittedDate||x.inviteDate;
+    if(!d)return;
+    const k=d.slice(0,7);
+    dateMap[k]=(dateMap[k]||0)+1;
+  });
+  const sortedDates=Object.keys(dateMap).sort();
+  
+  chartInstance1=new Chart(ctx1,{
+    type:'line',
+    data:{
+      labels:sortedDates.map(k=>k.slice(5)+'月'),
+      datasets:[{
+        label:isPapers?'投稿数':'审稿数',
+        data:sortedDates.map(k=>dateMap[k]),
+        borderColor:isPapers?'#7c3aed':'#059669',
+        backgroundColor:isPapers?'rgba(124,58,237,0.1)':'rgba(5,150,105,0.1)',
+        fill:true,
+        tension:0.4,
+        pointRadius:6,
+        pointHoverRadius:8,
+        pointBackgroundColor:isPapers?'#7c3aed':'#059669',
+        pointBorderColor:'#fff',
+        pointBorderWidth:2
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        datalabels:{
+          display:true,
+          align:'top',
+          offset:4,
+          font:{weight:'bold'},
+          formatter:v=>v
+        }
+      },
+      scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}
+    }
+  });
+  
+  // 图2: 状态分布（与原代码一致）
+  let statData,labels,colors;
+  if(isPapers){
+    statData=ST.map(s=>data.filter(x=>x.status===s.key).length);
+    labels=ST.map(s=>s.label);
+    colors=ST.map(s=>s.color);
+  }else{
+    statData=RV_DEC.map(d=>data.filter(x=>x.decision===d.key).length);
+    labels=RV_DEC.map(d=>d.label);
+    colors=RV_DEC.map(d=>d.color);
+  }
+  
+  chartInstance2=new Chart(ctx2,{
+    type:'doughnut',
+    data:{labels,datasets:[{data:statData,backgroundColor:colors,borderWidth:0}]},
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      cutout:'60%',
+      plugins:{
+        legend:{position:'right',labels:{boxWidth:12}},
+        datalabels:{
+          display:true,
+          formatter:(v,ctx)=>v>0?v:'',
+          color:'#fff',
+          font:{weight:'bold',size:11}
+        }
+      }
+    }
+  });
+  
+  // 图3: 期刊年度趋势大图表
+  const journalYears={};
+  const journalSet=new Set();
+  
+  data.forEach(x=>{
+    const d=x.submittedDate||x.inviteDate;
+    if(!d||!x.journal)return;
+    const year=d.slice(0,4);
+    if(!journalYears[year])journalYears[year]={};
+    if(!journalYears[year][x.journal])journalYears[year][x.journal]=0;
+    journalYears[year][x.journal]++;
+    journalSet.add(x.journal);
+  });
+  
+  const years=Object.keys(journalYears).sort();
+  const journals=Array.from(journalSet).sort();
+  const journalColors=['#7c3aed','#0ea5e9','#22c55e','#f59e0b','#ef4444','#a855f7','#ec4899','#14b8a6','#f97316','#6366f1','#8b5cf6','#06b6d4'];
+  
+  const datasets=journals.map((j,idx)=>({
+    label:j,
+    data:years.map(y=>(journalYears[y]&&journalYears[y][j])||0),
+    borderColor:journalColors[idx%journalColors.length],
+    backgroundColor:journalColors[idx%journalColors.length],
+    tension:0.3,
+    pointRadius:5,
+    pointHoverRadius:7,
+    borderWidth:2
+  }));
+  
+  chartInstance3=new Chart(ctx3,{
+    type:'line',
+    data:{
+      labels:years,
+      datasets:datasets
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false}, // 使用自定义图例
+        datalabels:{
+          display:true,
+          align:'bottom', // 数据标签在下方
+          offset:4,
+          font:{size:10},
+          formatter:v=>v>0?v:''
+        },
+        tooltip:{
+          mode:'index',
+          intersect:false,
+          callbacks:{
+            title:(items)=>items[0].label+'年',
+            label:(item)=>`${item.dataset.label}: ${item.raw}篇`
+          }
+        }
+      },
+      scales:{
+        y:{beginAtZero:true,ticks:{stepSize:1},grid:{color:'rgba(0,0,0,0.05)'}},
+        x:{grid:{display:false}}
+      }
+    }
+  });
+  
+  // 渲染自定义图例（垂直滚动）
+  const legendContainer=document.getElementById('journalLegend');
+  if(legendContainer){
+    legendContainer.innerHTML='';
+    journals.forEach((j,idx)=>{
+      const color=journalColors[idx%journalColors.length];
+      const item=document.createElement('div');
+      item.className='legend-item';
+      item.innerHTML=`<div class="legend-color" style="background:${color}"></div><div class="legend-text">${esc(j)}</div>`;
+      item.onclick=()=>{
+        const meta=chartInstance3.getDatasetMeta(idx);
+        meta.hidden=meta.hidden===null?!chartInstance3.data.datasets[idx].hidden:null;
+        item.classList.toggle('hidden',meta.hidden);
+        chartInstance3.update();
+      };
+      legendContainer.appendChild(item);
+    });
+  }
+}
+
+function updateFilter(type,value){
+  if(type==='year'){filterYear=value;filterMonth='';}
+  else if(type==='month')filterMonth=value;
+  else if(type==='journal')filterJournal=value;
+  render();
+}
+function clearFilters(){
+  filterYear='';filterMonth='';filterJournal='';
+  render();
+}
+
+function toggleSelectMode(){
+  selectMode=!selectMode;
+  selectedIds.clear();
+  render();
+}
+function exitSelectMode(){
+  selectMode=false;
+  selectedIds.clear();
+  render();
+}
+function toggleSelect(id){
+  if(selectedIds.has(id))selectedIds.delete(id);
+  else selectedIds.add(id);
+  render();
+}
+function batchDelete(){
+  if(selectedIds.size===0)return;
+  if(!confirm(`确定删除选中的 ${selectedIds.size} 项记录？此操作不可恢复。`))return;
+  
+  const isPapers=mainTab==='papers';
+  if(isPapers){
+    papers=papers.filter(p=>!selectedIds.has(p.id));
+  }else{
+    reviews=reviews.filter(r=>!selectedIds.has(r.id));
+  }
+  const count=selectedIds.size;
+  selectedIds.clear();
+  persist();
+  toast(`已删除 ${count} 项记录`);
+}
+
+function deleteItem(id,type){
+  if(!confirm('确定删除此记录？'))return;
+  if(type==='paper'){
+    papers=papers.filter(p=>p.id!==id);
+  }else{
+    reviews=reviews.filter(r=>r.id!==id);
+  }
+  persist();
+  toast('已删除');
+}
+
+function viewTimeline(id){
+  detailId=id;
+  render();
+}
+function viewReviewDetail(id){
+  editing=reviews.find(r=>r.id===id);
+  if(editing)showForm();
+}
+
+function completeReview(rid){
+  const r=reviews.find(x=>x.id===rid);
+  if(!r)return;
+  
+  const dec=prompt('审稿决定？输入：accept(接收)/minor(小修)/major(大修)/reject(拒稿)');
+  if(!dec)return;
+  
+  const decMap={accept:'accept',minor:'minor',major:'major',reject:'reject'};
+  const dk=decMap[dec.toLowerCase()];
+  if(!dk){toast('无效输入','error');return;}
+  
+  r.decision=dk;
+  r.status='completed';
+  if(!r.timeline)r.timeline=[];
+  r.timeline.push({id:uid(),date:td(),label:`提交审稿意见: ${gdec(dk).label}`,color:gdec(dk).color,note:''});
+  persist();
+  toast('审稿完成记录已保存');
+}
+
+function bindEvents(){
+  const isPapers=mainTab==='papers';
+  
+  document.getElementById('xNew').onclick=()=>{editing='new';showForm()};
+  
+  const searchInput=document.getElementById('xSch');
+  if(searchInput){
+    searchInput.oninput=e=>{
+      if(searchTimeout)clearTimeout(searchTimeout);
+      searchTimeout=setTimeout(()=>{
+        search=e.target.value;
+        render();
+      },300);
+    };
+  }
+  
+  document.querySelectorAll('.gtog button').forEach(b=>{
+    b.onclick=()=>{groupBy=b.dataset.g;render()}
+  });
+  
+  document.querySelectorAll('.tab[data-v]').forEach(b=>{
+    b.onclick=()=>{view=b.dataset.v;render()}
+  });
+  
+  document.querySelectorAll('.tab[data-t]').forEach(b=>{
+    b.onclick=()=>{mainTab=b.dataset.t;groupBy='status';search='';view='list';clearFilters();exitSelectMode();}
+  });
+  
+  if(isPapers){
+    document.querySelectorAll('.pc[data-eid]').forEach(c=>{
+      c.onclick=e=>{
+        if(e.target.closest('.qb')||e.target.closest('.clk')||e.target.closest('.star')||e.target.closest('.hist-link')||e.target.closest('.cact-btn')||e.target.closest('.pc-select'))return;
+        editing=papers.find(p=>p.id===c.dataset.eid);
+        if(editing)showForm();
+      }
+    });
+    document.querySelectorAll('.qb').forEach(b=>{
+      b.onclick=e=>{
+        e.stopPropagation();
+        const p=papers.find(x=>x.id===b.dataset.id);
+        if(p){
+          p.status=b.dataset.st;
+          if(!p.timeline)p.timeline=[];
+          p.timeline.push({id:uid(),date:td(),label:gs(b.dataset.st).label,color:gs(b.dataset.st).color,note:''});
+          persist();
+        }
+      }
+    });
+    document.querySelectorAll('.star').forEach(s=>{
+      s.onclick=e=>{
+        e.stopPropagation();
+        const p=papers.find(x=>x.id===s.dataset.id);
+        if(p){p.priority=parseInt(s.dataset.pr);persist()}
+      }
+    });
+    document.querySelectorAll('.hist-link').forEach(l=>{
+      l.onclick=e=>{
+        e.stopPropagation();
+        const id=l.dataset.goid;
+        if(id){detailId=id;render()}
+      }
+    });
+  }else{
+    document.querySelectorAll('.pc[data-rid]').forEach(c=>{
+      c.onclick=e=>{
+        if(e.target.closest('.cact-btn')||e.target.closest('.clk')||e.target.closest('.pc-select')||e.target.closest('.hist-link'))return;
+        editing=reviews.find(r=>r.id===c.dataset.rid);
+        if(editing)showForm();
+      }
+    });
+  }
+  
+  const bke=document.getElementById('bkExport');
+  if(bke)bke.onclick=doExport;
+  const bkd=document.getElementById('bkDismiss');
+  if(bkd)bkd.onclick=()=>{dismissBackup();render()};
+}
+
+function renderDetail(){
+  const p=papers.find(x=>x.id===detailId);
+  if(!p){detailId=null;render();return}
+  
+  const st=gs(p.status),rl=gr(p.role);
+  const tl=(p.timeline||[]).slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  const totalDays=p.submittedDate?dB(p.submittedDate,tl.length&&tl[tl.length-1].date?tl[tl.length-1].date:td()):0;
+
+  let tlH='';
+  tl.forEach((ev,i)=>{
+    let dur='';if(i>0&&tl[i-1].date&&ev.date){const d=dB(tl[i-1].date,ev.date);if(d>0)dur=`间隔 ${d} 天`}
+    tlH+=`<div class="ev"><div class="dot" style="background:${ev.color||'#94a3b8'}"></div><div class="date">${fD(ev.date)}</div><div class="label">${esc(ev.label)}</div>${ev.note?`<div class="note">${esc(ev.note)}</div>`:''}${dur?`<div class="dur">${dur}</div>`:''}</div>`;
+  });
+  if(!tl.length)tlH='<div style="color:var(--t3);font-size:12px;padding:8px 0">暂无记录，点编辑添加</div>';
+
+  let histViewH='';
+  if(p.workId&&getWorkCount(p.workId)>1){
+    const chain=getWorkChain(p.workId);
+    let items='';chain.forEach((cp,ci)=>{
+      const cst=gs(cp.status);
+      items+=`<div class="hist-chain-item" data-goid="${cp.id}"><span class="round">第${ci+1}轮</span><div class="info"><div class="jn">${esc(cp.journal||'未定')}</div><div class="tt">${esc(cp.title)}</div><div class="dates">${fD(cp.submittedDate)||'未投'} ${cp.submittedDate&&!['preparing'].includes(cp.status)?'· '+dB(cp.submittedDate,td())+'天':''}${cp.id===p.id?' · 当前查看':''}</div></div><span class="sbdg" style="background:${cst.color}15;color:${cst.color};border:1px solid ${cst.color}30;font-size:10px">${cst.emoji} ${cst.label}</span></div>`;
+    });
+    histViewH=`<div class="hist-view"><h3>📜 投稿历史（同一作品的多轮投稿）</h3><div class="hist-chain-full">${items}</div></div>`;
+  }
+
+  // 系统账号按钮（在时间线前）
+  let accountBtn='';
+  if(p.account?.username){
+    accountBtn=`<button class="ebtn" onclick="openAccountModal('${p.id}','paper')" style="margin-bottom:12px">🔑 查看系统账号</button>`;
+  }
+
+  document.getElementById('app').innerHTML=`
+  <div class="header"><div class="hi"><div class="ha"><div><h1>📑 投稿审稿管理工具</h1></div></div></div></div>
+  <div class="ct">
+    <div class="det-hd"><div class="bk" id="goBack">← 返回列表</div><h2>${esc(p.title)}</h2><div class="meta">
+      <span class="sbdg" style="background:${st.color}15;color:${st.color};border:1px solid ${st.color}30">${st.emoji} ${st.label}</span>
+      <span class="rtag" style="background:${gr(p.role).bg};color:${gr(p.role).fg};border:1px solid ${gr(p.role).bd}">${gr(p.role).label}</span>
+      ${p.journal?`<span style="font-style:italic">${esc(p.journal)}</span>`:''}
+      ${p.manuscriptId?`<span>${esc(p.manuscriptId)}</span>`:''}
+      ${totalDays?`<span>共 ${totalDays} 天</span>`:''}
+    </div></div>
+    ${histViewH}
+    <div class="det-tl">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3>📅 完整时间线</h3>
+        <button class="ebtn" id="editP">✏️ 编辑</button>
+      </div>
+      ${accountBtn}
+      <div class="ftl">${tlH}</div>
+    </div>
+  </div>
+  <div class="site-footer">
+    ${COPYRIGHT.footer1}<br>
+    ${COPYRIGHT.footer2}<br>
+    ${COPYRIGHT.footer3}<br>
+    ${COPYRIGHT.footer4}
+  </div>`;
+
+  document.getElementById('goBack').onclick=()=>{detailId=null;render()};
+  document.getElementById('editP').onclick=()=>{editing=papers.find(x=>x.id===detailId);if(editing)showForm()};
+  document.querySelectorAll('.hist-chain-item').forEach(c=>{c.onclick=()=>{detailId=c.dataset.goid;render()}});
+}
+
+// 账号Modal（带眼睛切换）
+function openAccountModal(id,type){
+  const isPaper=type==='paper';
+  const item=(isPaper?papers:reviews).find(x=>x.id===id);
+  if(!item||!item.account)return;
+  
+  const ov=document.createElement('div');
+  ov.className='mo';
+  ov.innerHTML=`<div class="acc-modal"><h3 style="font-size:14px;margin-bottom:16px">🔑 系统账号信息</h3>
+    <div class="acc-row">
+      <label>用户名 / 邮箱</label>
+      <div class="acc-input-wrap">
+        <input type="text" value="${esc(item.account.username)}" readonly>
+      </div>
+    </div>
+    <div class="acc-row">
+      <label>密码</label>
+      <div class="acc-input-wrap">
+        <input type="password" id="accPwdDisplay" value="${esc(item.account.password)}" readonly>
+        <button class="acc-eye-btn" onclick="toggleModalPwd()">👁️</button>
+      </div>
+    </div>
+    <div class="acc-btns">
+      <button onclick="this.closest('.mo').remove()">关闭</button>
+      <button class="primary ${isPaper?'':'rev'}" onclick="copyAccount('${id}','${type}')">复制账号</button>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+  ov.onclick=e=>{if(e.target===ov)ov.remove()};
+}
+
+function toggleModalPwd(){
+  const input=document.getElementById('accPwdDisplay');
+  const btn=input.nextElementSibling;
+  if(input.type==='password'){
+    input.type='text';
+    btn.textContent='🙈';
+  }else{
+    input.type='password';
+    btn.textContent='👁️';
+  }
+}
+
+function copyAccount(id,type){
+  const item=(type==='paper'?papers:reviews).find(x=>x.id===id);
+  if(item&&item.account){
+    const text=`账号：${item.account.username}\n密码：${item.account.password}`;
+    navigator.clipboard.writeText(text).then(()=>{
+      toast('账号信息已复制到剪贴板');
+      document.querySelector('.mo').remove();
+    });
+  }
+}
+
+function showForm(){
+  if(!editing){rmF();return}
+  const isN=editing==='new';
+  
+  if(mainTab==='papers'){
+    showPaperForm(isN);
+  }else{
+    showReviewForm(isN);
+  }
+}
+
+function showPaperForm(isN){
+  const p=isN?{id:'',title:'',journal:'',role:'first',status:'preparing',trackingUrl:'',manuscriptId:'',coAuthors:'',submittedDate:'',notes:'',priority:1,tags:[],timeline:[],workId:'',deadline:'',account:{}}:{...editing,timeline:[...(editing.timeline||[])],tags:[...(editing.tags||[])]};
+
+  let ov=document.getElementById('f-ov');if(!ov){ov=document.createElement('div');ov.id='f-ov';ov.className='mo';document.body.appendChild(ov)}
+
+  function rf(){
+    let so='';ST.forEach(s=>{const ac=p.status===s.key;so+=`<button type="button" class="sop ${ac?'ac':''}" data-sk="${s.key}" style="${ac?`border-color:${s.color};color:${s.color};background:${s.color}15`:''}">${s.emoji} ${s.label}</button>`});
+    let ro='';RL.forEach(r=>{ro+=`<option value="${r.key}" ${p.role===r.key?'selected':''}>${r.label}</option>`});
+    const tl=(p.timeline||[]).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    let tlH='';tl.forEach(ev=>{tlH+=`<div class="tl-ev"><div class="dot" style="background:${ev.color||'#94a3b8'}"></div><div class="date">${fD(ev.date)}</div><div class="label">${esc(ev.label)}</div>${ev.note?`<div class="note">${esc(ev.note)}</div>`:''}<button class="del-ev" data-evid="${ev.id}">✕</button></div>`});
+    let tagH='';(p.tags||[]).forEach((t,i)=>{tagH+=`<span class="cs-tag">${esc(t)}<span class="x" data-ti="${i}">✕</span></span>`});
+    let dlH='';labels.forEach(l=>{dlH+=`<option value="${esc(l)}">`});
+
+    const workIds=[...new Set(papers.filter(x=>x.workId&&x.id!==p.id).map(x=>x.workId))];
+    let workOpts='<option value="">（不关联，独立投稿）</option><option value="__new__">+ 创建新作品组</option>';
+    workIds.forEach(wid=>{
+      const first=papers.find(x=>x.workId===wid);
+      const sel=p.workId===wid?'selected':'';
+      workOpts+=`<option value="${wid}" ${sel}>${esc((first?.title||'').slice(0,30))} (${getWorkCount(wid)}轮)</option>`;
+    });
+
+    let histItems='';
+    if(p.workId){
+      const chain=getWorkChain(p.workId).filter(x=>x.id!==p.id);
+      chain.forEach(cp=>{
+        const cst=gs(cp.status);
+        histItems+=`<div class="hist-item"><span class="jn">${esc(cp.journal||'?')}</span><span class="st sbdg" style="background:${cst.color}15;color:${cst.color};border:1px solid ${cst.color}30;font-size:9.5px;padding:1px 6px">${cst.emoji}${cst.label}</span><span class="sep">·</span><span style="font-size:10px;color:var(--t3)">${fD(cp.submittedDate)}</span><span class="go" data-goid="${cp.id}">查看 →</span></div>`;
+      });
+    }
+
+    ov.innerHTML=`<div class="md"><div class="mh"><h2>${isN?'📄 新建投稿':'✏️ 编辑投稿'}</h2><button class="xbtn" id="fX">✕</button></div><div>
+    <div class="fg"><label class="fl">论文标题 *</label><input class="fi" id="fT" value="${esc(p.title)}" placeholder="输入论文标题..."></div>
+    <div class="fr"><div class="fg"><label class="fl">目标期刊</label><input class="fi" id="fJ" value="${esc(p.journal)}" placeholder="e.g. Nature, Science..."></div><div class="fg nw"><label class="fl">作者身份</label><select class="fi" id="fR">${ro}</select></div></div>
+    <div class="fg"><label class="fl">当前状态</label><div class="so" id="fSO">${so}</div></div>
+    <div class="fr"><div class="fg"><label class="fl">稿件编号</label><input class="fi" id="fM" value="${esc(p.manuscriptId)}" placeholder="MS-2026-XXXX"></div><div class="fg nw2"><label class="fl">优先级</label><select class="fi" id="fPr"><option value="1" ${(p.priority||1)===1?'selected':''}>普通</option><option value="2" ${p.priority===2?'selected':''}>重要</option><option value="3" ${p.priority===3?'selected':''}>紧急</option></select></div><div class="fg nw"><label class="fl">投稿日期</label><input type="date" class="fi" id="fD" value="${p.submittedDate||''}"></div></div>
+    <div class="fr"><div class="fg"><label class="fl">追踪网址</label><input class="fi" id="fU" value="${esc(p.trackingUrl)}" placeholder="https://mc.manuscriptcentral.com/..."></div><div class="fg nw"><label class="fl">修回截止</label><input type="date" class="fi" id="fDL" value="${p.deadline||''}"></div></div>
+    <div class="fg"><label class="fl">合作者</label><input class="fi" id="fA" value="${esc(p.coAuthors)}" placeholder="张三, 李四, 王五..."></div>
+    <div class="fg"><label class="fl">标签</label><div class="cs-row" id="tagR">${tagH}<input class="cs-add" id="tagIn" placeholder="+ 添加标签"></div></div>
+    <div class="fg"><label class="fl">备注</label><textarea class="fi" id="fN" rows="2" placeholder="审稿意见、修改计划...">${esc(p.notes||'')}</textarea></div>
+    
+    <div class="fg" style="background:var(--ibg);padding:10px;border-radius:7px"><label class="fl">系统账号（可选）</label>
+      <div class="fr" style="gap:10px">
+        <div class="fg" style="flex:1;margin-bottom:0"><input class="fi" id="fAccUser" value="${esc(p.account?.username||'')}" placeholder="用户名/邮箱"></div>
+        <div class="fg" style="flex:1;margin-bottom:0;position:relative"><input class="fi" id="fAccPass" type="password" value="${esc(p.account?.password||'')}" placeholder="密码"><button type="button" onclick="toggleFormPwd('fAccPass')" style="position:absolute;right:8px;top:28px;background:none;border:none;cursor:pointer;font-size:12px;color:var(--t3)">👁️</button></div>
+      </div>
+    </div>
+
+    <div class="hist-sec"><h3>🔗 关联作品（同一论文的多轮投稿）</h3>
+    <div class="fg"><label class="fl">关联到已有作品</label><select class="fi" id="fWk">${workOpts}</select></div>
+    ${histItems?`<div style="margin-top:6px">${histItems}</div>`:''}
+    <div style="font-size:10px;color:var(--t3);margin-top:4px">将被拒/撤稿后转投的论文关联起来，可追踪完整投稿历史</div>
+    </div>
+
+    <div class="tls"><h3>📅 时间线 <span style="font-weight:400;font-size:10px;color:var(--t3)">(${(p.timeline||[]).length}条)</span></h3>
+    <datalist id="evLb">${dlH}</datalist>
+    <div class="tl-add">
+      <div class="fg" style="flex:0 0 105px"><label class="fl">日期</label><input type="date" class="fi" id="evD" value="${td()}"></div>
+      <div class="fg" style="flex:1"><label class="fl">事件</label><input class="fi" id="evL" list="evLb" placeholder="With Editor..."></div>
+      <div class="fg" style="flex:1"><label class="fl">备注</label><input class="fi" id="evN" placeholder="可选"></div>
+      <button class="bsav" id="evA" style="padding:7px 10px;flex-shrink:0">+</button>
+    </div>
+    ${tl.length?`<div class="tl-list">${tlH}</div>`:'<div style="font-size:11px;color:var(--t3)">暂无记录</div>'}
+    </div>
+    ${!isN?`<div style="text-align:center;margin-top:10px"><button class="ebtn" id="vTL" style="font-size:11px">📅 查看完整时间线</button></div>`:''}
+    </div><div class="mf">${!isN?'<button class="bdel" id="fDl">🗑 删除</button>':'<div></div>'}<div style="display:flex;gap:6px"><button class="bcan" id="fCa">取消</button><button class="bsav" id="fSv">${isN?'添加':'保存'}</button></div></div></div>`;
+
+    ov.onclick=e=>{if(e.target===ov){editing=null;rmF();render()}};
+    document.getElementById('fX').onclick=document.getElementById('fCa').onclick=()=>{editing=null;rmF();render()};
+    document.querySelectorAll('#fSO .sop').forEach(b=>{b.onclick=()=>{p.status=b.dataset.sk;rf()}});
+
+    document.getElementById('evA').onclick=()=>{
+      const l=document.getElementById('evL').value.trim();if(!l)return;
+      if(!p.timeline)p.timeline=[];
+      const st2=ST.find(s=>s.label===l);
+      p.timeline.push({id:uid(),date:document.getElementById('evD').value,label:l,color:st2?st2.color:'#94a3b8',note:document.getElementById('evN').value.trim()});
+      if(!labels.includes(l)){labels.push(l);localStorage.setItem('pt_lb',JSON.stringify(labels))}
+      sync();rf();
+    };
+    document.querySelectorAll('.del-ev').forEach(b=>{b.onclick=()=>{p.timeline=p.timeline.filter(ev=>ev.id!==b.dataset.evid);sync();rf()}});
+    document.querySelectorAll('.cs-tag .x').forEach(x=>{x.onclick=()=>{p.tags.splice(parseInt(x.dataset.ti),1);sync();rf()}});
+    document.getElementById('tagIn').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();const v=e.target.value.trim();if(v&&!p.tags.includes(v)){p.tags.push(v);sync();rf()}}};
+
+    const vtl=document.getElementById('vTL');
+    if(vtl)vtl.onclick=()=>{sync();if(!isN){const idx=papers.findIndex(x=>x.id===p.id);if(idx>=0)papers[idx]=p;saveL()}editing=null;rmF();detailId=p.id;render()};
+
+    document.querySelectorAll('.go').forEach(g=>{g.onclick=()=>{sync();if(!isN){const idx=papers.findIndex(x=>x.id===p.id);if(idx>=0)papers[idx]=p;saveL()}editing=null;rmF();detailId=g.dataset.goid;render()}});
+
+    document.getElementById('fSv').onclick=()=>{
+      sync();if(!p.title.trim()){toast('请输入标题','error');return}
+      const wkVal=document.getElementById('fWk').value;
+      if(wkVal==='__new__'){p.workId=uid()}
+      else if(wkVal){p.workId=wkVal}
+      else{p.workId=''}
+
+      p.id=p.id||uid();
+      if(isN)papers.push(p);else{const idx=papers.findIndex(x=>x.id===p.id);if(idx>=0)papers[idx]=p}
+      editing=null;rmF();persist();
+    };
+    const dl=document.getElementById('fDl');if(dl)dl.onclick=()=>{if(confirm('确认删除？')){papers=papers.filter(x=>x.id!==p.id);editing=null;rmF();persist()}};
+
+    function sync(){
+      p.title=document.getElementById('fT')?.value||p.title;
+      p.journal=document.getElementById('fJ')?.value||'';
+      p.role=document.getElementById('fR')?.value||'first';
+      p.manuscriptId=document.getElementById('fM')?.value||'';
+      p.submittedDate=document.getElementById('fD')?.value||'';
+      p.trackingUrl=document.getElementById('fU')?.value||'';
+      p.coAuthors=document.getElementById('fA')?.value||'';
+      p.notes=document.getElementById('fN')?.value||'';
+      p.priority=parseInt(document.getElementById('fPr')?.value||'1');
+      p.deadline=document.getElementById('fDL')?.value||'';
+      if(!p.account)p.account={};
+      p.account.username=document.getElementById('fAccUser')?.value||'';
+      p.account.password=document.getElementById('fAccPass')?.value||'';
+    }
+  }
+  rf();setTimeout(()=>document.getElementById('fT')?.focus(),80);
+}
+
+function showReviewForm(isN){
+  const r=isN?{id:'',journal:'',paperTitle:'',round:1,inviteDate:td(),dueDate:'',decision:'',link:'',notes:'',status:'pending',timeline:[],account:{},reviewWorkId:''}:{...editing,timeline:[...(editing.timeline||[])]};
+
+  let ov=document.getElementById('f-ov');if(!ov){ov=document.createElement('div');ov.id='f-ov';ov.className='mo';document.body.appendChild(ov)}
+
+  function rf(){
+    let decOpts='';RV_DEC.forEach(d=>{decOpts+=`<option value="${d.key}" ${r.decision===d.key?'selected':''}>${d.emoji} ${d.label}</option>`});
+    const tl=(r.timeline||[]).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    let tlH='';tl.forEach(ev=>{tlH+=`<div class="tl-ev"><div class="dot" style="background:${ev.color||'#94a3b8'}"></div><div class="date">${fD(ev.date)}</div><div class="label">${esc(ev.label)}</div>${ev.note?`<div class="note">${esc(ev.note)}</div>`:''}<button class="del-ev" data-evid="${ev.id}">✕</button></div>`});
+
+    const reviewWorkIds=[...new Set(reviews.filter(x=>x.reviewWorkId&&x.id!==r.id).map(x=>x.reviewWorkId))];
+    let workOpts='<option value="">（不关联，独立审稿）</option><option value="__new__">+ 创建新审稿组（同一稿件多轮）</option>';
+    reviewWorkIds.forEach(wid=>{
+      const first=reviews.find(x=>x.reviewWorkId===wid);
+      const sel=r.reviewWorkId===wid?'selected':'';
+      workOpts+=`<option value="${wid}" ${sel}>${esc((first?.paperTitle||'').slice(0,30))} (${getReviewWorkCount(wid)}轮)</option>`;
+    });
+
+    // 审稿事件预设datalist
+    let rvEvH='';RV_EVENTS.forEach(e=>{rvEvH+=`<option value="${e}">`});
+
+    ov.innerHTML=`<div class="md"><div class="mh"><h2>${isN?'📪 新建审稿记录':'✏️ 编辑审稿记录'}</h2><button class="xbtn" id="fX">✕</button></div><div>
+    <div class="fg"><label class="fl">审稿期刊 *</label><input class="fi rev" id="rvJ" value="${esc(r.journal)}" placeholder="期刊名称..."></div>
+    <div class="fg"><label class="fl">论文标题</label><input class="fi rev" id="rvT" value="${esc(r.paperTitle)}" placeholder="稿件标题..."></div>
+    <div class="fr"><div class="fg"><label class="fl">邀请日期</label><input type="date" class="fi" id="rvI" value="${r.inviteDate||''}"></div><div class="fg"><label class="fl">截止日期</label><input type="date" class="fi" id="rvD" value="${r.dueDate||''}"></div><div class="fg nw2"><label class="fl">轮次</label><input type="number" class="fi" id="rvR" value="${r.round||1}" min="1"></div></div>
+    <div class="fg"><label class="fl">审稿决定</label><select class="fi rev" id="rvDec">${decOpts}</select></div>
+    <div class="fg"><label class="fl">审稿系统链接</label><input class="fi rev" id="rvL" value="${esc(r.link)}" placeholder="https://..."></div>
+    <div class="fg"><label class="fl">审稿笔记</label><textarea class="fi" id="rvN" rows="3" placeholder="论文评价、主要问题...">${esc(r.notes||'')}</textarea></div>
+    
+    <div class="fg" style="background:var(--ibg);padding:10px;border-radius:7px;margin-top:10px"><label class="fl">审稿系统账号（可选）</label>
+      <div class="fr" style="gap:10px">
+        <div class="fg" style="flex:1;margin-bottom:0"><input class="fi" id="rvAccUser" value="${esc(r.account?.username||'')}" placeholder="用户名/邮箱"></div>
+        <div class="fg" style="flex:1;margin-bottom:0;position:relative"><input class="fi" id="rvAccPass" type="password" value="${esc(r.account?.password||'')}" placeholder="密码"><button type="button" onclick="toggleFormPwd('rvAccPass')" style="position:absolute;right:8px;top:28px;background:none;border:none;cursor:pointer;font-size:12px;color:var(--t3)">👁️</button></div>
+      </div>
+    </div>
+
+    <div class="hist-sec"><h3>🔗 关联审稿（同一稿件的多轮审稿）</h3>
+    <div class="fg"><label class="fl">关联到已有审稿组</label><select class="fi" id="rvWk">${workOpts}</select></div>
+    <div style="font-size:10px;color:var(--t3);margin-top:4px">将同一稿件的多轮审稿邀请关联，便于追踪历史</div>
+    </div>
+    
+    <div class="tls"><h3>📅 处理时间线 <span style="font-weight:400;font-size:10px;color:var(--t3)">(${(r.timeline||[]).length}条)</span></h3>
+    <datalist id="rvEvLb">${rvEvH}</datalist>
+    <div class="tl-add">
+      <div class="fg" style="flex:0 0 105px"><label class="fl">日期</label><input type="date" class="fi" id="evD" value="${td()}"></div>
+      <div class="fg" style="flex:1"><label class="fl">事件</label><input class="fi" id="evL" list="rvEvLb" placeholder="选择或输入..."></div>
+      <div class="fg" style="flex:1"><label class="fl">备注</label><input class="fi" id="evN" placeholder="可选"></div>
+      <button class="bsav rev" id="evA" style="padding:7px 10px;flex-shrink:0">+</button>
+    </div>
+    ${tl.length?`<div class="tl-list">${tlH}</div>`:'<div style="font-size:11px;color:var(--t3)">暂无记录</div>'}
+    </div>
+    </div><div class="mf">${!isN?'<button class="bdel" id="fDl">🗑 删除</button>':'<div></div>'}<div style="display:flex;gap:6px"><button class="bcan" id="fCa">取消</button><button class="bsav rev" id="fSv">${isN?'添加':'保存'}</button></div></div></div>`;
+
+    ov.onclick=e=>{if(e.target===ov){editing=null;rmF();render()}};
+    document.getElementById('fX').onclick=document.getElementById('fCa').onclick=()=>{editing=null;rmF();render()};
+    
+    document.getElementById('evA').onclick=()=>{
+      const l=document.getElementById('evL').value.trim();if(!l)return;
+      if(!r.timeline)r.timeline=[];
+      r.timeline.push({id:uid(),date:document.getElementById('evD').value,label:l,color:'#059669',note:document.getElementById('evN').value.trim()});
+      syncR();rf();
+    };
+    document.querySelectorAll('.del-ev').forEach(b=>{b.onclick=()=>{r.timeline=r.timeline.filter(ev=>ev.id!==b.dataset.evid);syncR();rf()}});
+
+    document.getElementById('fSv').onclick=()=>{
+      syncR();
+      if(!r.journal.trim()){toast('请输入期刊名称','error');return}
+      r.status=r.decision?'completed':'pending';
+      
+      const wkVal=document.getElementById('rvWk').value;
+      if(wkVal==='__new__'){r.reviewWorkId=uid()}
+      else if(wkVal){r.reviewWorkId=wkVal}
+      else{r.reviewWorkId=''}
+      
+      r.id=r.id||uid();
+      if(isN)reviews.push(r);else{const idx=reviews.findIndex(x=>x.id===r.id);if(idx>=0)reviews[idx]=r}
+      editing=null;rmF();persist();
+    };
+    const dl=document.getElementById('fDl');if(dl)dl.onclick=()=>{if(confirm('确认删除？')){reviews=reviews.filter(x=>x.id!==r.id);editing=null;rmF();persist()}};
+
+    function syncR(){
+      r.journal=document.getElementById('rvJ')?.value||'';
+      r.paperTitle=document.getElementById('rvT')?.value||'';
+      r.inviteDate=document.getElementById('rvI')?.value||'';
+      r.dueDate=document.getElementById('rvD')?.value||'';
+      r.round=parseInt(document.getElementById('rvR')?.value||'1');
+      r.decision=document.getElementById('rvDec')?.value||'';
+      r.link=document.getElementById('rvL')?.value||'';
+      r.notes=document.getElementById('rvN')?.value||'';
+      const accUser=document.getElementById('rvAccUser');
+      const accPass=document.getElementById('rvAccPass');
+      if(accUser&&accPass){
+        if(!r.account)r.account={};
+        r.account.username=accUser.value;
+        r.account.password=accPass.value;
+      }
+    }
+  }
+  rf();setTimeout(()=>document.getElementById('rvJ')?.focus(),80);
+}
+
+function toggleFormPwd(inputId){
+  const input=document.getElementById(inputId);
+  const btn=input.nextElementSibling;
+  if(input.type==='password'){
+    input.type='text';
+    btn.textContent='🙈';
+  }else{
+    input.type='password';
+    btn.textContent='👁️';
+  }
+}
+
+function rmF(){const m=document.getElementById('f-ov');if(m)m.remove()}
+
+loadL();
+render();
+</script>
+</body>
+</html>
+
