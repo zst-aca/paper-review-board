@@ -5,7 +5,7 @@ A lightweight, privacy-first, single-HTML tool for tracking academic paper submi
 
 > 一款为科研工作者量身定制的轻量级、零部署、绝对隐私的单文件（Single-HTML）管理工具。
 
-## 💡 研发初衷
+## 💡 起因
 都说搞论文比较好的状态是：“一个在投，一个返修，一个在写，一个在构思”。
 为了解决日常科研中**“稿件进度难追踪、不同期刊账号易遗忘、审稿 DDL 容易错过、缺乏数据复盘”**等痛点，我基于日常需求 Vibe Coding 了这款极简工具。
 
