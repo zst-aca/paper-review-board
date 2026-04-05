@@ -10,7 +10,7 @@ A lightweight, privacy-first, single-HTML tool for tracking academic paper submi
 
 ## 💡 起因
 都说搞论文比较好的状态是：“一个在投，一个返修，一个在写，一个在构思”。
-为了解决日常科研中**“稿件进度难追踪、不同期刊账号易遗忘、审稿 DDL 容易错过、缺乏数据复盘”**等痛点，我基于日常需求 Vibe Coding 了这款极简工具。
+为了解决日常科研中**稿件进度难追踪、不同期刊账号易遗忘、审稿 DDL 容易错过、缺乏数据复盘**等痛点，我基于日常需求 Vibe Coding 了这款极简工具。
 
 **纯前端原生代码（Vanilla JS + HTML + CSS），数据 100% 存在浏览器本地（LocalStorage），不需联网，不走服务器，绝对保护未发表论文的隐私安全。**
 
