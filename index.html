@@ -158,7 +158,7 @@ textarea.fi{resize:vertical;min-height:42px}
 .ftl .ev .label{font-size:13px;font-weight:700}
 .ftl .ev .note{font-size:11.5px;color:var(--t2);margin-top:2px;line-height:1.4}
 .ftl .ev .dur{font-size:9.5px;color:var(--t3);margin-top:3px;font-style:italic}
-/* 统计卡片自适应一行 */
+
 .dash{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-bottom:18px}
 .dash-c{background:var(--card);border-radius:9px;border:1px solid var(--border);padding:10px 8px;text-align:center}
 .dash-c .num{font-size:22px;font-weight:900;color:var(--ac);line-height:1}
@@ -236,7 +236,7 @@ textarea.fi{resize:vertical;min-height:42px}
 .acc-btns button.primary{background:var(--ac);color:#fff;border-color:var(--ac)}
 .acc-btns button.primary.rev{background:var(--ac-rev);border-color:var(--ac-rev)}
 .site-footer{max-width:920px;margin:40px auto 0;padding:20px;text-align:center;font-size:11px;color:var(--t3);border-top:1px solid var(--border);line-height:1.6}
-/* 修复标签重叠 - 垂直排列 */
+
 .tag-stack{display:flex;flex-direction:column;gap:2px;align-items:flex-end}
 @media(max-width:520px){
   .header{padding:20px 14px 16px}.header h1{font-size:18px}
@@ -258,7 +258,6 @@ textarea.fi{resize:vertical;min-height:42px}
 <div id="app"></div>
 <script>
 
-// 版
 const COPYRIGHT = {
   header: '\u7248\u6743\u4e3a\u5c0f\u7ea2\u4e66@\u4e0d\u8981\u778e\u8bf4 \u6240\u6709 \u007c ID\u53f7\u003a\u0039\u0035\u0035\u0039\u0033\u0030\u0031\u0030\u0038\u0037',
   sub1: '\u4ec5\u4f9b\u79d1\u7814\u5b66\u4e60\u4f7f\u7528\uff0c\u8bf7\u52ff\u5546\u7528',
@@ -268,7 +267,6 @@ const COPYRIGHT = {
   footer3: '\u90ae\u7bb1\uff1a\u0061\u0063\u0061\u0064\u0065\u006d\u0069\u0063\u002e\u007a\u0073\u0074\u0040\u006f\u0075\u0074\u006c\u006f\u006f\u006b\u002e\u0063\u006f\u006d',
   footer4: '\u7248\u672c\uff1a\u0032\u0030\u0032\u0036\u0056\u0033'
 };
-
 // 注册Chart.js插件
 Chart.register(ChartDataLabels);
 
@@ -516,7 +514,6 @@ function render(){
   const newBtnClass=isPapers?'':'rev';
   const acTabClass=isPapers?'ac':'ac-rev';
   
-  // 直接使用 COPYRIGHT 对象
   app.innerHTML=`
   <div class="header"><div class="hi"><div class="ha"><div><h1>📑 投稿审稿管理工具</h1><p>数据存储在本地浏览器 · 建议定期导出备份</p><p style="font-size: 0.65rem; color: #6c757d; margin-top: 4px;">${COPYRIGHT.header}</p><p style="font-size: 0.6rem; color: #6c757d; margin-top: 4px;">${COPYRIGHT.sub1}</p><p style="font-size: 0.65rem; color: #6c757d; margin-top: 4px;">${COPYRIGHT.sub2}</p></div><div class="hb"><button class="hbtn" onclick="doImport()">📥 导入</button><button class="hbtn" onclick="doExport()">📋 导出备份</button><button class="hbtn ${newBtnClass}" id="xNew">+ 新建${isPapers?'投稿':'审稿'}</button></div></div>${(isPapers?papers:reviews).length?`<div class="sr">${stH}</div>`:''}</div></div>
   ${bkH}
@@ -698,7 +695,6 @@ function renderDashboard(data){
   h+='<div class="chart-box"><h4>状态分布</h4><div class="chart-container"><canvas id="chartPie"></canvas></div></div>';
   h+='</div>';
   
-  // 新增大图表 - 期刊年度趋势
   h+='<div class="chart-large-box">';
   h+='<h4>期刊分年统计</h4>';
   h+='<div class="chart-container-large">';
@@ -753,7 +749,6 @@ function drawCharts(data){
   Chart.defaults.font.family="'Noto Sans SC',sans-serif";
   Chart.defaults.font.size=11;
   
-  // 图1: 趋势分析（与原代码一致）
   const dateMap={};
   data.forEach(x=>{
     const d=x.submittedDate||x.inviteDate;
@@ -798,7 +793,6 @@ function drawCharts(data){
     }
   });
   
-  // 图2: 状态分布（与原代码一致）
   let statData,labels,colors;
   if(isPapers){
     statData=ST.map(s=>data.filter(x=>x.status===s.key).length);
@@ -829,7 +823,6 @@ function drawCharts(data){
     }
   });
   
-  // 图3: 期刊年度趋势大图表
   const journalYears={};
   const journalSet=new Set();
   
@@ -868,10 +861,10 @@ function drawCharts(data){
       responsive:true,
       maintainAspectRatio:false,
       plugins:{
-        legend:{display:false}, // 使用自定义图例
+        legend:{display:false}, 
         datalabels:{
           display:true,
-          align:'bottom', // 数据标签在下方
+          align:'bottom', 
           offset:4,
           font:{size:10},
           formatter:v=>v>0?v:''
@@ -892,7 +885,6 @@ function drawCharts(data){
     }
   });
   
-  // 渲染自定义图例（垂直滚动）
   const legendContainer=document.getElementById('journalLegend');
   if(legendContainer){
     legendContainer.innerHTML='';
@@ -1096,7 +1088,6 @@ function renderDetail(){
     histViewH=`<div class="hist-view"><h3>📜 投稿历史（同一作品的多轮投稿）</h3><div class="hist-chain-full">${items}</div></div>`;
   }
 
-  // 系统账号按钮（在时间线前）
   let accountBtn='';
   if(p.account?.username){
     accountBtn=`<button class="ebtn" onclick="openAccountModal('${p.id}','paper')" style="margin-bottom:12px">🔑 查看系统账号</button>`;
@@ -1134,7 +1125,6 @@ function renderDetail(){
   document.querySelectorAll('.hist-chain-item').forEach(c=>{c.onclick=()=>{detailId=c.dataset.goid;render()}});
 }
 
-// 账号Modal（带眼睛切换）
 function openAccountModal(id,type){
   const isPaper=type==='paper';
   const item=(isPaper?papers:reviews).find(x=>x.id===id);
